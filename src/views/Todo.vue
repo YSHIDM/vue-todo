@@ -10,23 +10,21 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import {namespace} from "vuex-class";
+
+const rMd = namespace("roleStore");
 
 @Component({
   name: 'appMain'
 })
 
 export default class Todo extends Vue {
-  public data(){
-    return {
-      question: '',
-      answer: 'I cannot give you an answer until you ask a question!'
-    }
-  }
-  /**
-   * created
-   */
-  public created() {
+  @rMd.Action('getAllTodoAction')
+  private getAllTodoAction!: () => Promise<HttpRes<Array<TodoModel.TodoData>>>
 
+  public async created() {
+    const data = await this.getAllTodoAction();
+    console.log('data :>>', data)
   }
   /**
    * computed
@@ -52,30 +50,6 @@ export default class Todo extends Vue {
   }
 
 }
-
-// const watchExampleVM = new Vue({
-//   el: '#hh',
-//   watch: {
-//     // 如果 `question` 发生改变，这个函数就会运行
-//     question(newQuestion, oldQuestion) {
-//       console.log('newQuestion, oldQuestion :>>', newQuestion, oldQuestion)
-//       this.answer = 'Waiting for you to stop typing...'
-//     }
-//   },
-
-//   methods: {
-//     getAnswer() {
-//       if (this.question.indexOf('?') === -1) {
-//         this.answer = 'Questions usually contain a question mark. ;-)'
-//         return
-//       }
-//       this.answer = 'Thinking...'
-//       // var vm = this
-
-//     }
-//   }
-// })
-
 
 </script>
 

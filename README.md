@@ -1,5 +1,13 @@
 # vue-todo
 
+## top
+
+1. 列表 todoList
+2. 添加 addTodo
+3. 设置
+4. 回收站
+5. 归档
+
 ## Project setup
 
 ```shell
