@@ -6,7 +6,7 @@
       v-for="(item, index) in navigateArray"
       :key="index"
       :icon="item.icon"
-      :to="item.to"
+      :to="{name:item.to,params:{id:null}}"
       >{{item.name}}</van-tabbar-item>
     </van-tabbar>
   </div>
@@ -20,7 +20,7 @@ export default class App extends Vue {
       {
         name: '列表',
         icon: 'todo-list',
-        to: '/',
+        to: 'todoList',
       },
       {
         name: '添加',

@@ -3,7 +3,7 @@ title
 content
 node
 isArchive
-isRecycle
+isClose
 creator
 createdAt
 modifier

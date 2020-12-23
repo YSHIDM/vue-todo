@@ -24,7 +24,7 @@ export default class Todo extends Vue {
 
   public async created() {
     const data = await this.getAllTodoAction();
-    console.log('data :>>', data)
+    console.info(data);
   }
   /**
    * computed

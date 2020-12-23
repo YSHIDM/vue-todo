@@ -2,8 +2,8 @@
 // deleteTodoById
 // todoNext
 // todoDone
-// invalidateTodo
-// todoRecycle
+// closeTodo
+// restoreTodo
 // todoArchive
 
 import gql from 'graphql-tag';
@@ -12,8 +12,8 @@ import todoField from './field';
 export const saveTodoGql = gql`
   mutation($obj: TodoInput!) {
     saveTodo(obj: $obj) {
-      rescode
-      resmessage
+      code
+      msg
       data {
         ${todoField}
       }
@@ -23,16 +23,16 @@ export const saveTodoGql = gql`
 export const deleteTodoByIdGql = gql`
   mutation($id: String!) {
     deleteTodoById(id: $id) {
-      rescode
-      resmessage
+      code
+      msg
     }
   }
 `
 export const todoNextGql = gql`
   mutation($id: String!) {
     todoNext(id: $id) {
-      rescode
-      resmessage
+      code
+      msg
       data {
         ${todoField}
       }
@@ -42,8 +42,8 @@ export const todoNextGql = gql`
 export const todoDoneGql = gql`
   mutation($id: String!) {
     todoDone(id: $id) {
-      rescode
-      resmessage
+      code
+      msg
       data {
         ${todoField}
       }
@@ -51,11 +51,11 @@ export const todoDoneGql = gql`
   }
 `
 // 删除
-export const invalidateTodoGql = gql`
+export const closeTodoGql = gql`
   mutation($id: String!) {
-    invalidateTodo(id: $id) {
-      rescode
-      resmessage
+    closeTodo(id: $id) {
+      code
+      msg
       data {
         ${todoField}
       }
@@ -63,11 +63,11 @@ export const invalidateTodoGql = gql`
   }
 `
 // 回收站
-export const todoRecycleGql = gql`
+export const restoreTodoGql = gql`
   mutation($id: String!) {
-    todoRecycle(id: $id) {
-      rescode
-      resmessage
+    restoreTodo(id: $id) {
+      code
+      msg
       data {
         ${todoField}
       }
@@ -77,8 +77,8 @@ export const todoRecycleGql = gql`
 export const todoArchiveGql = gql`
   mutation($id: String!) {
     todoArchive(id: $id) {
-      rescode
-      resmessage
+      code
+      msg
       data {
         ${todoField}
       }

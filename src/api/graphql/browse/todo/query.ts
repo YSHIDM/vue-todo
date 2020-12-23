@@ -12,3 +12,15 @@ query {
   }
 }
 `
+
+export const getTodoByIdGql = gql`
+query($id: String!) {
+  getTodoById(id: $id) {
+    code
+    msg
+    data {
+      ${todoField}
+    }
+  }
+}
+`

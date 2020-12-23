@@ -1,18 +1,25 @@
 import { query, mutation } from '@/api/config';
-import { getAllTodoGql } from './query';
+import { getAllTodoGql, getTodoByIdGql } from './query';
 import {
   saveTodoGql,
   deleteTodoByIdGql,
   todoNextGql,
   todoDoneGql,
-  invalidateTodoGql,
-  todoRecycleGql,
+  closeTodoGql,
+  restoreTodoGql,
   todoArchiveGql,
 } from './mutation';
 
 export const getAllTodo = (): Promise<HttpRes<Array<TodoModel.TodoData>>> => query({
   query: getAllTodoGql,
 }, 'getAllTodo')
+
+export const getTodoById = (id: string) => query({
+  query: getTodoByIdGql,
+  variables: {
+    id,
+  }
+}, 'getTodoById')
 
 export const saveTodo = (obj: { id: string; title: string; content: string }) => mutation({
   mutation: saveTodoGql,
@@ -42,19 +49,19 @@ export const todoDone = (id: string) => mutation({
   }
 }, 'todoDone')
 
-export const invalidateTodo = (id: string) => mutation({
-  mutation: invalidateTodoGql,
+export const closeTodo = (id: string) => mutation({
+  mutation: closeTodoGql,
   variables: {
     id
   }
-}, 'invalidateTodo')
+}, 'closeTodo')
 
-export const todoRecycle = (id: string) => mutation({
-  mutation: todoRecycleGql,
+export const restoreTodo = (id: string) => mutation({
+  mutation: restoreTodoGql,
   variables: {
     id
   }
-}, 'todoRecycle')
+}, 'restoreTodo')
 
 export const todoArchive = (id: string) => mutation({
   mutation: todoArchiveGql,

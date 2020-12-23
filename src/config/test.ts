@@ -1,4 +1,4 @@
-const serverUrl = 'http://192.168.199.54:7003';
+const serverUrl = 'http://192.168.199.54:7001';
 export default {
   /**
    * @description 后端域名

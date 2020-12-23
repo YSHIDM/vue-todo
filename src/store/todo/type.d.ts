@@ -5,7 +5,7 @@ export interface Todo {
   content: string;
   node: NodeType;
   isArchive: boolean;
-  isRecycle: boolean;
+  isClose: boolean;
   creator: string;
   createdAt: string;
   modifier: string;

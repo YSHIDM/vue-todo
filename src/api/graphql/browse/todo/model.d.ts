@@ -5,10 +5,11 @@ declare namespace TodoModel {
     content: string;
     node: NodeType;
     isArchive: boolean;
-    isRecycle: boolean;
+    isClose: boolean;
     creator: string;
     createdAt: string;
     modifier: string;
     updatedAt: string;
   }
+  type NodeType = 'recycle' | 'archive' | 'todo' | 'inProgress' | 'testing' | 'done';
 }
