@@ -22,25 +22,25 @@ export default class App extends Vue {
         icon: 'todo-list',
         to: 'todoList',
       },
-      {
-        name: '添加',
-        icon: 'add-square',
-        to: 'addTodo',
-      },
+      // {
+      //   name: '添加',
+      //   icon: 'add-square',
+      //   to: 'addTodo',
+      // },
       {
         name: '归档',
         icon: 'star',
-        to: 'appHome',
+        to: 'archiveTodo',
       },
       {
         name: '回收站',
         icon: 'clock',
-        to: 'appHome',
+        to: 'recycle',
       },
       {
         name: '设置',
         icon: 'setting',
-        to: 'appHome',
+        to: 'setting',
       },
     ];
     active = 0;

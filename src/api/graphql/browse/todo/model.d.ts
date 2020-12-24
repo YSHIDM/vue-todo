@@ -1,4 +1,9 @@
 declare namespace TodoModel {
+  interface History {
+    node: string;
+    title: string;
+    time: string;
+  }
   interface TodoData {
     id: string;
     title: string;
@@ -6,6 +11,7 @@ declare namespace TodoModel {
     node: NodeType;
     isArchive: boolean;
     isClose: boolean;
+    history: Array<History>;
     creator: string;
     createdAt: string;
     modifier: string;

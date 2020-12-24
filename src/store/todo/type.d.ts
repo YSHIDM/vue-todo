@@ -6,6 +6,7 @@ export interface Todo {
   node: NodeType;
   isArchive: boolean;
   isClose: boolean;
+  history: Array<TodoModel.History>;
   creator: string;
   createdAt: string;
   modifier: string;

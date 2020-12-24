@@ -25,6 +25,7 @@
 </template>
 
 <script lang="ts">
+import { Notify } from 'vant';
 import { Component, Vue } from 'vue-property-decorator';
 import {namespace} from "vuex-class";
 
@@ -37,12 +38,16 @@ export default class AddTodo extends Vue {
   @tdMd.Action('getTodoByIdAction')
   private getTodoByIdAction!: (id: string) => Promise<TodoModel.TodoData>
   @tdMd.Action('saveTodoAction')
-  private saveTodoAction!: (id: string) => Promise<TodoModel.TodoData>
+  private saveTodoAction!: ({todo, index}: {todo: TodoModel.TodoData; index: number}) => Promise<TodoModel.TodoData>
 
   activeName = 0;
   async saveTodo(values: any){
-    console.log(values)
-    await this.saveTodoAction(values)
+    await this.saveTodoAction({todo: values, index: this.$route.params.index as unknown as number})
+    let message = '保存成功'
+    if (values.id){
+      message = '修改成功'
+    }
+    Notify({ type: 'success', message })
   }
   async created(){
     if (this.$route.params.id){

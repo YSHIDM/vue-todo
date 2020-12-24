@@ -1,7 +1,6 @@
-
 import { Store } from 'vuex';
 import {
-  getAllTodo, saveTodo, getTodoById, // deleteTodoById, todoNext, todoDone, closeTodo, restoreTodo, todoArchive
+  getAllTodo, saveTodo, getTodoById, closeTodo, todoNext, todoDone, todoArchive, restoreTodo, // deleteTodoById, restoreTodo, todoArchive
 } from '@/api/graphql/browse/todo';
 import { RES_CODE } from "@/api/const";
 import {
@@ -15,7 +14,7 @@ const DELETE_TODO_BY_ID = 'DELETE_TODO_BY_ID'; // 更新角色列表
 const TODO_NEXT = 'TODO_NEXT'; // 设置角色对应的用户
 const TODO_DONE = 'TODO_DONE'; // 修改当前角色主管
 const CLOSE_TODO = 'CLOSE_TODO'; // 删除角色关联人员
-const TODO_RECYCLE = 'TODO_RECYCLE'; // 添加角色关联人员
+const RESTORE_TODO = 'RESTORE_TODO'; // 添加角色关联人员
 const TODO_ARCHIVE = 'todoArchive'; // 添加角色关联人员
 
 export default {
@@ -39,38 +38,32 @@ export default {
   },
 
   mutations: {
-    // [INIT_TODO_LIST]() {
-
-    // },
     [GET_ALL_TODO](state: State, allTodoList: AllTodoList) {
       state.allTodoList = allTodoList
     },
-    [SAVE_TODO](state: State, todo: Todo) {
-      if (todo.node === "todo") {
-        state.allTodoList.todo.unshift(todo);
-      } else if (todo.node === "inProgress") {
-        state.allTodoList.inProgress.unshift(todo);
-      } else if (todo.node === "testing") {
-        state.allTodoList.testing.unshift(todo);
+    [SAVE_TODO](state: State, { todo, index }: { todo: Todo; index: number }) {
+      if (typeof index === 'number') {
+        state.allTodoList[todo.node].splice(index, 1)
       }
+      state.allTodoList[todo.node].unshift(todo);
     },
     [TODO_NEXT](state: State, { node, index, todo }: { node: NodeType; index: number; todo: Todo }) {
       state.allTodoList[node].splice(index, 1)
       state.allTodoList[todo.node].unshift(todo)
     },
-    [CLOSE_TODO](state: State, { listType, index, todo }: { listType: NodeType; index: number; todo: Todo }) {
-      state.allTodoList[listType].splice(index, 1)
+    [CLOSE_TODO](state: State, { node, index, todo }: { node: NodeType; index: number; todo: Todo }) {
+      state.allTodoList[node].splice(index, 1)
       state.allTodoList['recycle'].unshift(todo)
     },
-    [TODO_RECYCLE](state: State, { listType, index, todo }: { listType: NodeType; index: number; todo: Todo }) {
+    [RESTORE_TODO](state: State, { index, todo }: { index: number; todo: Todo }) {
       state.allTodoList['recycle'].splice(index, 1)
-      state.allTodoList[listType].unshift(todo)
+      state.allTodoList[todo.node].unshift(todo)
     },
     [DELETE_TODO_BY_ID](state: State, { index }: { index: number }) {
       state.allTodoList['recycle'].splice(index, 1);
     },
-    [TODO_DONE](state: State, { listType, index, todo }: { listType: NodeType; index: number; todo: Todo }) {
-      state.allTodoList[listType].splice(index, 1)
+    [TODO_DONE](state: State, { node, index, todo }: { node: NodeType; index: number; todo: Todo }) {
+      state.allTodoList[node].splice(index, 1)
       state.allTodoList['done'].unshift(todo)
     },
     [TODO_ARCHIVE](state: State, { index, todo }: { index: number; todo: Todo }) {
@@ -101,7 +94,7 @@ export default {
       };
       data.forEach(todo => {
         if (todo.isClose) {
-          state.allTodoList.recycle.push(todo);
+          allTodoList.recycle.push(todo);
         } else if (todo.isArchive) {
           allTodoList.archive.push(todo);
         } else if (todo.node === "todo") {
@@ -118,22 +111,41 @@ export default {
         return null;
       }
       commit(GET_ALL_TODO, allTodoList);
+      console.log('allTodoList :>>', allTodoList)
       state.isInit = true
       return data;
-    },
-    async saveTodoAction({ commit }: Store<State>, todo: Todo) {
-      const { code, data } = await saveTodo(todo);
-      if (code !== RES_CODE.SUCCESS) {
-        return null;
-      }
-      commit(SAVE_TODO, data);
     },
     async getTodoByIdAction(_State: Store<State>, id: string) {
       const { data } = await getTodoById(id);
       return data;
+    },
+    async saveTodoAction({ commit }: Store<State>, { todo, index }: { todo: Todo; index: number }) {
+      const { code, data } = await saveTodo(todo);
+      if (code !== RES_CODE.SUCCESS) {
+        return null;
+      }
+      commit(SAVE_TODO, { todo: data, index });
+    },
+    async closeTodoAction({ commit }: Store<State>, { id, node, index }: { id: string; node: NodeType; index: number }) {
+      // TODO: 错误验证
+      const { data: todo } = await closeTodo(id);
+      commit(CLOSE_TODO, { node, index, todo });
+    },
+    async todoNextAction({ commit }: Store<State>, { id, node, index }: { id: string; node: NodeType; index: number }) {
+      const { data: todo } = await todoNext(id);
+      commit(TODO_NEXT, { node, index, todo });
+    },
+    async todoDoneAction({ commit }: Store<State>, { id, node, index }: { id: string; node: NodeType; index: number }) {
+      const { data: todo } = await todoDone(id);
+      commit(TODO_DONE, { node, index, todo });
+    },
+    async todoArchiveAction({ commit }: Store<State>, { id, index }: { id: string; index: number }) {
+      const { data: todo } = await todoArchive(id);
+      commit(TODO_ARCHIVE, { index, todo });
+    },
+    async restoreTodoAction({ commit }: Store<State>, { id, index }: { id: string; index: number }) {
+      const {data: todo } = await restoreTodo(id);
+      commit(RESTORE_TODO, { index, todo })
     }
-    // async saveTodoAction() {
-
-    // }
   }
 }

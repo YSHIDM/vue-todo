@@ -11,7 +11,7 @@ const routes: Array<RouteConfig> = [
     component: todoList
   },
   {
-    path: "/addTodo",
+    path: "/addTodo/:id/:index",
     name: "addTodo",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -19,9 +19,19 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "about" */ "../views/addTodo.vue")
   },
   {
-    path: "/todo",
-    name: "Todo",
-    component: () => import(/* webpackChunkName: "about" */ "../views/Todo.vue")
+    path: "/archiveTodo",
+    name: "archiveTodo",
+    component: () => import("../views/archiveTodo.vue")
+  },
+  {
+    path: "/recycle",
+    name: "recycle",
+    component: () => import("../views/recycle.vue")
+  },
+  {
+    path: "/setting",
+    name: "setting",
+    component: () => import("../views/setting.vue")
   }
 ];
 

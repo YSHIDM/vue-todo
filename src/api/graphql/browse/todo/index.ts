@@ -49,7 +49,7 @@ export const todoDone = (id: string) => mutation({
   }
 }, 'todoDone')
 
-export const closeTodo = (id: string) => mutation({
+export const closeTodo = (id: string): Promise<HttpRes<TodoModel.TodoData>> => mutation({
   mutation: closeTodoGql,
   variables: {
     id
