@@ -1,6 +1,6 @@
 import { Store } from 'vuex';
 import {
-  getAllTodo, saveTodo, getTodoById, closeTodo, todoNext, todoDone, todoArchive, restoreTodo, // deleteTodoById, restoreTodo, todoArchive
+  getAllTodo, saveTodo, getTodoById, closeTodo, todoNext, todoDone, todoArchive, restoreTodo, deleteTodoById
 } from '@/api/graphql/browse/todo';
 import { RES_CODE } from "@/api/const";
 import {
@@ -111,7 +111,6 @@ export default {
         return null;
       }
       commit(GET_ALL_TODO, allTodoList);
-      console.log('allTodoList :>>', allTodoList)
       state.isInit = true
       return data;
     },
@@ -144,8 +143,12 @@ export default {
       commit(TODO_ARCHIVE, { index, todo });
     },
     async restoreTodoAction({ commit }: Store<State>, { id, index }: { id: string; index: number }) {
-      const {data: todo } = await restoreTodo(id);
+      const { data: todo } = await restoreTodo(id);
       commit(RESTORE_TODO, { index, todo })
+    },
+    async deleteTodoByIdAction({ commit }: Store<State>, { id, index }: { id: string; index: number }) {
+      await deleteTodoById(id)
+      commit(DELETE_TODO_BY_ID, { index })
     }
   }
 }

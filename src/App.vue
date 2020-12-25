@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view />
+    <div style="height: 50px;"></div>
     <van-tabbar v-model="active">
       <van-tabbar-item
       v-for="(item, index) in navigateArray"
@@ -22,11 +23,6 @@ export default class App extends Vue {
         icon: 'todo-list',
         to: 'todoList',
       },
-      // {
-      //   name: '添加',
-      //   icon: 'add-square',
-      //   to: 'addTodo',
-      // },
       {
         name: '归档',
         icon: 'star',

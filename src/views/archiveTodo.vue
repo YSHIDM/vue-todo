@@ -63,4 +63,4 @@ export default class ArchiveTodo extends Vue {
 
 <style>
 
-</style>template
+</style>

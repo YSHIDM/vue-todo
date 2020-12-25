@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import todoList from "../views/todoList.vue";
+import todoList from "../views/todoList/index.vue";
 
 Vue.use(VueRouter);
 
@@ -10,14 +10,14 @@ const routes: Array<RouteConfig> = [
     name: "todoList",
     component: todoList
   },
-  {
-    path: "/addTodo/:id/:index",
-    name: "addTodo",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ "../views/addTodo.vue")
-  },
+  // {
+  //   path: "/addTodo/:id/:index",
+  //   name: "addTodo",
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () => import(/* webpackChunkName: "about" */ "../views/addTodo.vue")
+  // },
   {
     path: "/archiveTodo",
     name: "archiveTodo",

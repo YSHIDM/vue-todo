@@ -98,7 +98,6 @@ export const clearSession = (): void => {
 // 判定设备类型
 export const getEquipment = () => {
   const ua: any = navigator.userAgent.toLowerCase();
-  console.log(ua);
   const Agents: any = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod'];
   let flag = true;
   for (const v of Agents) {

@@ -1,7 +1,6 @@
 <template>
   <div class="addTodo">
     <van-form @submit="saveTodo">
-      <van-field type="text" name="id" v-model="todo.id"/>
       <van-field
         v-model="todo.title"
         name="title"
@@ -26,13 +25,17 @@
 
 <script lang="ts">
 import { Notify } from 'vant';
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop} from 'vue-property-decorator';
 import {namespace} from "vuex-class";
 
 const tdMd = namespace("todoStore")
 
 @Component
 export default class AddTodo extends Vue {
+  @Prop()
+  private id !: string;
+  @Prop()
+  private index !: number;
   todo: any = {};
 
   @tdMd.Action('getTodoByIdAction')
@@ -42,7 +45,7 @@ export default class AddTodo extends Vue {
 
   activeName = 0;
   async saveTodo(values: any){
-    await this.saveTodoAction({todo: values, index: this.$route.params.index as unknown as number})
+    await this.saveTodoAction({todo: {...values, id: this.id}, index: this.index as unknown as number})
     let message = '保存成功'
     if (values.id){
       message = '修改成功'
@@ -50,8 +53,10 @@ export default class AddTodo extends Vue {
     Notify({ type: 'success', message })
   }
   async created(){
-    if (this.$route.params.id){
-    this.todo = await this.getTodoByIdAction(this.$route.params.id)
+    console.log('this.id :>>', this.id)
+    if (this.id){
+      console.log('getTodoByIdAction')
+      this.todo = await this.getTodoByIdAction(this.id)
     }
   }
 }

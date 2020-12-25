@@ -1,4 +1,4 @@
-const serverUrl = 'https://appserver2.jbr365.com'
+const serverUrl = 'https://yshi.test.utools.club'
 export default {
   /**
    * @description 后端域名
