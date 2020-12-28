@@ -1,5 +1,8 @@
 <template>
   <div class="addTodo">
+    <van-nav-bar
+      :title="!id ? '新建待办' : '修改待办'"
+    />
     <van-form @submit="saveTodo">
       <van-field
         v-model="todo.title"
@@ -14,7 +17,6 @@
         name="content"
         label="待办内容"
         placeholder="待办内容"
-        :rules="[{ required: true, message: '请填写待办内容' }]"
       />
       <div style="margin: 16px;">
         <van-button round block type="info" native-type="submit">提交</van-button>
@@ -26,7 +28,7 @@
 <script lang="ts">
 import { Notify } from 'vant';
 import { Component, Vue, Prop} from 'vue-property-decorator';
-import {namespace} from "vuex-class";
+import { namespace } from "vuex-class";
 
 const tdMd = namespace("todoStore")
 
@@ -51,11 +53,10 @@ export default class AddTodo extends Vue {
       message = '修改成功'
     }
     Notify({ type: 'success', message })
+    this.$emit('closeAddTodo')
   }
   async created(){
-    console.log('this.id :>>', this.id)
     if (this.id){
-      console.log('getTodoByIdAction')
       this.todo = await this.getTodoByIdAction(this.id)
     }
   }

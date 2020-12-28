@@ -42,5 +42,8 @@ export default class App extends Vue {
     active = 0;
 }
 </script>
-<style>
+<style scoped>
+/deep/.van-tabbar {
+  z-index: 9;
+}
 </style>

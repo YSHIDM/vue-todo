@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import todoList from "../views/todoList/index.vue";
+import todoList from "../views/todoList.vue";
 
 Vue.use(VueRouter);
 
@@ -32,6 +32,11 @@ const routes: Array<RouteConfig> = [
     path: "/setting",
     name: "setting",
     component: () => import("../views/setting.vue")
+  },
+  {
+    path: "/map",
+    name: "map",
+    component: () => import("../views/map.vue")
   }
 ];
 

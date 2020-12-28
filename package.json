@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@amap/amap-vue": "^2.0.9",
     "@types/apollo-upload-client": "^14.1.0",
     "@vue/eslint-config-airbnb": "^5.1.0",
     "apollo-cache-inmemory": "^1.6.5",

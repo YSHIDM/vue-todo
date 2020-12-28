@@ -1,5 +1,6 @@
 <template>
   <div class="todoList">
+    <van-nav-bar title="待办列表" />
     <van-tabs v-model="active" @change="getCollapseData" sticky>
       <van-tab
       v-for="(item,index) in todoNode"
@@ -7,44 +8,49 @@
       :title="item.alias || item.title"
       :name="item.name"
       >
-        <MyCollapse :collapseData="collapseData" @preAddTodo="preAddTodo"/>
+        <MyCollapse
+          :collapseData="collapseData"
+          :accordion="accordion"
+          :activeName="activeName"
+          @preAddTodo="preAddTodo"
+        />
       </van-tab>
     </van-tabs>
 
     <div style="height: 30px;"></div>
-    <table style="width: 100%; position:fixed;bottom: 50px">
+    <!-- <table style="width: 100%; position:fixed;bottom: 50px;background-color: white;">
       <tr>
         <td>
-          <van-button type="primary" @click="closeTodo(id, node, index)" size="mini">手风琴</van-button>
+          <van-button type="primary" @click="accordion = !accordion" size="mini">{{text}}</van-button>
         </td>
         <td>
-          <van-button type="primary" @click="closeTodo(id, node, index)" size="mini">全部展开</van-button>
+          <van-button type="primary" @click="expandAll" size="mini">全部展开</van-button>
         </td>
         <td>
           <van-button type="primary" @click="closeTodo(id, node, index)" size="mini">全部折叠</van-button>
         </td>
         <td>
-          <van-button type="primary" @click="preAddTodo('', -1)" size="mini" v-if="active!='done'">新建待办</van-button>
+          <van-button type="primary" @click="preAddTodo()" size="mini">新建待办</van-button>
         </td>
       </tr>
-    </table>
+    </table> -->
     <van-popup
       v-model="show"
-      position="right"
-      :style="{ height: '100%',width: '50%' }"
+      position="left"
+      round
+      :style="{ height: '100%',width: '80%' }"
     >
-      <AddTodo :id="id" :index="index" v-if="show" />
+      <AddTodo :id="id" :index="index" v-if="show" @closeAddTodo="show = false"/>
     </van-popup>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import {namespace} from "vuex-class";
-import MyCollapse from '@/components/MyCollapse.vue'
-// import AddTodo from '@/components/AddTodo.vue'
+import { namespace } from "vuex-class";
+import MyCollapse from '@/components/MyCollapse.vue';
 
-const AddTodo = () => import('@/components/AddTodo.vue')
+const AddTodo = () => import('@/components/AddTodo.vue');
 
 const tdMd = namespace("todoStore")
 
@@ -58,6 +64,13 @@ export default class TodoList extends Vue {
   show = false;
   id = '';
   index = -1;
+  // 手风琴
+  accordion = true;
+  activeName: number | number[] = 0;
+
+  // expandAll(){
+  //   this.activeName = this.collapseData.map((_item, i) => i)//
+  // }
 
   @tdMd.Action('getAllTodoAction')
   private getAllTodoAction!: () => Promise<Array<TodoModel.TodoData>>
@@ -86,6 +99,10 @@ export default class TodoList extends Vue {
     alias: '',
   }]
   collapseData: Array<TodoModel.TodoData>=[];
+
+  private get text(): string {
+    return this.accordion ? '手风琴' : '折叠列表'
+  }
   async created(){
     if (this.getTodoList().length === 0) {
       await this.getAllTodoAction();
@@ -96,7 +113,6 @@ export default class TodoList extends Vue {
     this.collapseData = this.getTodoList(name)
   }
   preAddTodo(id = '', index = -1) {
-    console.log('id, index :>>', id, index)
     this.id = id;
     this.index = index;
     this.show = true;

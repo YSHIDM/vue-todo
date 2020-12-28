@@ -1,11 +1,12 @@
 <template>
   <div class="mycollapse">
-    <van-collapse v-model="activeName" accordion>
+    <van-collapse v-model="activeName" :accordion="accordion">
       <van-collapse-item
       v-for="({ id, title, content, node, isClose, history },index) in collapseData"
       :key="index"
       :title="title"
-      :name="index">
+      :name="index"
+      @change="test">
         <!-- {{id+content+node+ isArchive}} -->
         待办内容: {{content}} <br>
         阶段开始时间: {{history && history[history.length - 1].time}}
@@ -72,6 +73,22 @@
 
       </van-collapse-item>
     </van-collapse>
+        <table style="width: 100%; position:fixed;bottom: 50px;background-color: white;">
+      <tr>
+        <td>
+          <van-button type="primary" @click="accordion = !accordion" size="mini">123</van-button>
+        </td>
+        <td>
+          <van-button type="primary" @click="expandAll()" size="mini">全部展开</van-button>
+        </td>
+        <td>
+          <van-button type="primary" @click="closeTodo(id, node, index)" size="mini">全部折叠</van-button>
+        </td>
+        <td>
+          <van-button type="primary" @click="preAddTodo()" size="mini">新建待办</van-button>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -84,9 +101,11 @@ const tdMd = namespace("todoStore")
 @Component
 export default class MyCollapse extends Vue {
   @Prop()
-  private collapseData !: string;
-
-  activeName = 0;
+  private collapseData !: TodoModel.TodoData[];
+  @Prop()
+  private accordion = true;
+  @Prop()
+  private activeName !: number | number[];
 
   @tdMd.Action('saveTodoAction')
   private saveTodoAction!: ({todo, index}: {todo: TodoModel.TodoData; index: number}) => Promise<TodoModel.TodoData>
@@ -107,6 +126,7 @@ export default class MyCollapse extends Vue {
     await this.saveTodoAction({todo: values, index: this.$route.params.index as unknown as number})
   }
   async closeTodo(id: string, node: TodoModel.NodeType, index: number){
+    console.log('accordion :>>', this.accordion, this.activeName)
     const closeTodoAction = this.closeTodoAction
     this.$dialog.confirm({
       title: '关闭待办',
@@ -114,24 +134,59 @@ export default class MyCollapse extends Vue {
     })
     .then(async (): Promise<void> => {
         await closeTodoAction({ id, node, index })
+        this.$notify({ type: 'success', message: '成功关闭待办' })
       })
     .catch(() => {
     });
   }
   async todoNext(id: string, node: TodoModel.NodeType, index: number){
-    await this.todoNextAction({ id, node, index })
+    const todoNextAction = this.todoNextAction
+    this.$dialog.confirm({
+      title: '进入下一步',
+      message: '待办进入下一步骤?'
+    })
+    .then(async (): Promise<void> => {
+      await todoNextAction({ id, node, index })
+      this.$notify({ type: 'success', message: '操作成功' })
+    })
+    .catch(() => {
+    });
   }
   async todoDone(id: string, node: TodoModel.NodeType, index: number){
-    await this.todoDoneAction({ id, node, index })
+    const todoDoneAction = this.todoDoneAction
+    this.$dialog.confirm({
+      title: '完成待办',
+      message: '结束待办任务?'
+    })
+    .then(async (): Promise<void> => {
+      await todoDoneAction({ id, node, index })
+      this.$notify({ type: 'success', message: '待办已完成' })
+    })
+    .catch(() => { });
   }
   async todoArchive(id: string, index: number){
     await this.todoArchiveAction({ id, index })
+    this.$notify({ type: 'success', message: '待办已归档' })
   }
   async restoreTodo(id: string, index: number){
     await this.restoreTodoAction({ id, index })
+    this.$notify({ type: 'success', message: '待办已还原' })
   }
   async deleteTodoById(id: string, index: number) {
-    await this.deleteTodoByIdAction({ id, index })
+    const deleteTodoByIdAction = this.deleteTodoByIdAction
+    this.$dialog.confirm({
+      title: '彻底删除',
+      message: '彻底删除待办?'
+    })
+    .then(async (): Promise<void> => {
+      await deleteTodoByIdAction({ id, index })
+      this.$notify({ type: 'success', message: '待办已彻底删除' })
+    })
+    .catch(() => { });
+  }
+  async test(){
+    console.log(this.accordion)
+    console.log(this.activeName)
   }
   public preAddTodo(id: string, index: number) {
     this.$emit('preAddTodo', id, index)

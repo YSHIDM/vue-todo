@@ -1,5 +1,7 @@
 <template>
   <div>
+    <van-nav-bar title="待办回收站" :fixed="true" />
+    <div style="height: 46px;"></div>
     <MyCollapse :collapseData="collapseData" :isRecycle="true"/>
   </div>
 </template>

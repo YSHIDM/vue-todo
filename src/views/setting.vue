@@ -1,6 +1,18 @@
 <<template>
   <div>
-    设置 todoNode
+    <van-nav-bar title="待办设置" :fixed="true" />
+    <div style="height: 46px;"></div>
+
+    <van-swipe>
+      <van-swipe-item>
+        <div>
+          123123123 <br/>
+          123123123 <br/>
+          123123123 <br/>
+          123123123 <br/>
+        </div>
+      </van-swipe-item>
+    </van-swipe>
   </div>
 </template>
 

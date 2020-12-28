@@ -1,12 +1,16 @@
 <template>
   <div class="archiveTodo">
-    <van-steps direction="vertical" :active="archiveTodoList.length">
+    <van-nav-bar title="归档待办" :fixed="true" />
+    <div style="height: 46px;"></div>
+    <van-steps direction="vertical" :active="archiveTodoList.length" active-icon="good-job">
       <van-step
-      v-for="({ title, content, history }, index) in archiveTodoList"
+      v-for="({ title, content, history, createdAt }, index) in archiveTodoList"
       :key="index"
       >
-        <h3>{{title}}</h3>
-        <p>{{content}}</p>
+        {{createdAt}}
+        <h3>标题: {{title}}</h3>
+        <p>内容: {{content}}</p>
+
         <van-steps direction="vertical" :active="history.length">
           <van-step v-for="({title:node,time},index) in history"
           :key="index"
@@ -17,7 +21,7 @@
       </van-step>
     </van-steps>
 
-<!-- <van-steps direction="vertical" :active="0">
+<van-steps direction="vertical" :active="1" inactive-icon="good-job" active-icon="good-job" style="z-index: 1">
   <van-step>
     <h3>【城市】物流状态1</h3>
     <p>2016-07-12 12:40</p>
@@ -30,7 +34,7 @@
     <h3>快件已发货</h3>
     <p>2016-07-10 09:30</p>
   </van-step>
-</van-steps> -->
+</van-steps>
   </div>
 </template>
 
@@ -61,6 +65,8 @@ export default class ArchiveTodo extends Vue {
 
 </script>
 
-<style>
-
+<style scoped>
+/deep/.van-nav-bar{
+  z-index: 9;
+}
 </style>
