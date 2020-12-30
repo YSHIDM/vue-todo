@@ -5,6 +5,7 @@
     />
     <van-form @submit="saveTodo">
       <van-field
+        v-if="todo"
         v-model="todo.title"
         name="title"
         label="待办标题"
@@ -12,6 +13,7 @@
         :rules="[{ required: true, message: '请填写待办标题' }]"
       />
       <van-field
+        v-if="todo"
         v-model="todo.content"
         type="textarea"
         name="content"
@@ -38,7 +40,7 @@ export default class AddTodo extends Vue {
   private id !: string;
   @Prop()
   private index !: number;
-  todo: any = {};
+  todo = { title: '', content: '' };
 
   @tdMd.Action('getTodoByIdAction')
   private getTodoByIdAction!: (id: string) => Promise<TodoModel.TodoData>
@@ -47,7 +49,7 @@ export default class AddTodo extends Vue {
 
   activeName = 0;
   async saveTodo(values: any){
-    await this.saveTodoAction({todo: {...values, id: this.id}, index: this.index as unknown as number})
+    await this.saveTodoAction({todo: {...values, id: this.id }, index: this.index as unknown as number})
     let message = '保存成功'
     if (values.id){
       message = '修改成功'

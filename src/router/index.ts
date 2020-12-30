@@ -24,6 +24,11 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/archiveTodo.vue")
   },
   {
+    path: "/smallGoals",
+    name: "smallGoals",
+    component: () => import("../views/smallGoals.vue")
+  },
+  {
     path: "/recycle",
     name: "recycle",
     component: () => import("../views/recycle.vue")

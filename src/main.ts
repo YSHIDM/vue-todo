@@ -11,6 +11,7 @@ import router from "./router";
 import store from "./store";
 
 import 'vant/lib/index.css';
+import '@/style/var.css'
 
 Vue.config.productionTip = false;
 Vue.prototype.$md5 = md5;

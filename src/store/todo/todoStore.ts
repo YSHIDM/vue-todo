@@ -24,7 +24,7 @@ export default {
     allTodoList: {
       recycle: [],
       archive: [],
-      todo: [],
+      plan: [],
       inProgress: [],
       testing: [],
       done: [],
@@ -33,7 +33,7 @@ export default {
 
   getters: {
     getTodoList(state: State): (type?: NodeType) => Array<TodoModel.TodoData> {
-      return (type: NodeType = 'todo'): Array<TodoModel.TodoData> => state.allTodoList[type] || []
+      return (type: NodeType = 'plan'): Array<TodoModel.TodoData> => state.allTodoList[type] || []
     }
   },
 
@@ -42,7 +42,7 @@ export default {
       state.allTodoList = allTodoList
     },
     [SAVE_TODO](state: State, { todo, index }: { todo: Todo; index: number }) {
-      if (typeof index === 'number') {
+      if (index > 0) {
         state.allTodoList[todo.node].splice(index, 1)
       }
       state.allTodoList[todo.node].unshift(todo);
@@ -57,7 +57,8 @@ export default {
     },
     [RESTORE_TODO](state: State, { index, todo }: { index: number; todo: Todo }) {
       state.allTodoList['recycle'].splice(index, 1)
-      state.allTodoList[todo.node].unshift(todo)
+      const node: NodeType = todo.isArchive ? 'archive' : todo.node
+      state.allTodoList[node].unshift(todo)
     },
     [DELETE_TODO_BY_ID](state: State, { index }: { index: number }) {
       state.allTodoList['recycle'].splice(index, 1);
@@ -84,10 +85,10 @@ export default {
         return state.allTodoList
       }
       const { code, data } = await getAllTodo();
-      const allTodoList: { [key: string]: Todo[] } = {
+      const allTodoList: AllTodoList = {
         recycle: [],
         archive: [],
-        todo: [],
+        plan: [],
         inProgress: [],
         testing: [],
         done: [],
@@ -97,8 +98,8 @@ export default {
           allTodoList.recycle.push(todo);
         } else if (todo.isArchive) {
           allTodoList.archive.push(todo);
-        } else if (todo.node === "todo") {
-          allTodoList.todo.push(todo);
+        } else if (todo.node === "plan") {
+          allTodoList.plan.push(todo);
         } else if (todo.node === "inProgress") {
           allTodoList.inProgress.push(todo);
         } else if (todo.node === "testing") {
@@ -123,10 +124,10 @@ export default {
       if (code !== RES_CODE.SUCCESS) {
         return null;
       }
+      console.log('data :>>', data)
       commit(SAVE_TODO, { todo: data, index });
     },
     async closeTodoAction({ commit }: Store<State>, { id, node, index }: { id: string; node: NodeType; index: number }) {
-      // TODO: 错误验证
       const { data: todo } = await closeTodo(id);
       commit(CLOSE_TODO, { node, index, todo });
     },

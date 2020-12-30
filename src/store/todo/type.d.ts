@@ -1,4 +1,4 @@
-export type NodeType = 'recycle' | 'archive' | 'todo' | 'inProgress' | 'testing' | 'done';
+export type NodeType = 'recycle' | 'archive' | 'plan' | 'inProgress' | 'testing' | 'done';
 export interface Todo {
   id: string;
   title: string;
@@ -16,7 +16,7 @@ export interface Todo {
 export interface AllTodoList {
   recycle: Todo[];
   archive: Todo[];
-  todo: Todo[];
+  plan: Todo[];
   inProgress: Todo[];
   testing: Todo[];
   done: Todo[];

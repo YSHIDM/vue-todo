@@ -1,52 +1,43 @@
 # vue-todo
 
-## top
+## 简介
 
-1. 列表 todoList
-2. 设置
-3. 回收站
-4. 归档
+一个简单的待办管理小工具
 
-## TODO
+使用 vue2 + vant
 
-1. [x] 页面上拉时标签栏遮挡
-2. 添加/修改页面没有返回
-3. [x] 提示信息报错
-4. 列表页
-   1. 卡片不好看
-   2. 卡片内按钮位置不固定
-   3. 全局按钮没有贴底
-   4. 标签页吸顶
-5. 归档页
-   1. 关闭按钮没开发
-6. 回收站 -> 同列表页
-7. 设置页未开发
-8. [实现快速新建待办](https://blog.csdn.net/yanxinyun1990/article/details/108997454?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.control)
+## 功能
 
-## Project setup
+1. 待办增删改查
+2. 待办归档
+3. 待办回收站
+4. 待办倒计时页面版
+5. 设置待办节点(待完善)
+
+## 待办
+
+1. 待办节点设置没有完善
+
+## sql
+
+<!-- @import "./doc/todo.sql" -->
+<!-- @import "./doc/todo_node.sql" -->
+
+## 命令
 
 ```shell
+# 下载代码
+git clone https://github.com/YSHIDM/vue-todo.git
+# 安装 npm 包
 npm install
-```
-
-### Compiles and hot-reloads for development
-
-```shell
+# 启动本地服务
 npm run serve
-```
-
-### Compiles and minifies for production
-
-```shell
+# 编译
 npm run build
-```
-
-### Lints and fixes files
-
-```shell
+# 检查及修改代码
 npm run lint
 ```
 
-### Customize configuration
+## 后端
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[egg-graphql-upload](https://github.com/YSHIDM/egg-graphql-upload.git)

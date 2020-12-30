@@ -2,7 +2,7 @@ module.exports = {
   root: true, // 此项是用来告诉eslint找当前配置文件不能往父级查找
   env: {
     node: true, // 此项指定环境的全局变量，下面的配置指定为node环境
-    "browser": true,
+    browser: true,
   },
   globals: {
     wx: true
@@ -17,7 +17,7 @@ module.exports = {
     ecmaVersion: 2020,
   },
   rules: {
-    'semi': 'off',
+    semi: 'off',
     'no-console': 'off',
     'no-debugger': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -34,7 +34,7 @@ module.exports = {
     'func-names': 'off',
     'prefer-destructuring': 'off',
     '@typescript-eslint/camelcase': 'off',
-    'quotes': 'off',
+    quotes: 'off',
     'no-underscore-dangle': 'off',
     'nonblock-statement-body-position': 'off',
     'no-multiple-empty-lines': 'off',
@@ -58,12 +58,12 @@ module.exports = {
     'no-else-return': 'off',
     'no-unneeded-ternary': 'off',
     'prefer-spread': 'off',
-    'indent': 'off',
+    indent: 'off',
     'space-before-blocks': 'off',
     'object-curly-spacing': 'off',
     'padded-blocks': 'off',
     'dot-notation': 'off',
-    'curly': 'off',
+    curly: 'off',
     'arrow-parens': 'off',
     'lines-between-class-members': 'off',
     'no-continue': 'off',

@@ -6,17 +6,22 @@
       :key="index"
       :title="title"
       :name="index"
-      @change="test">
-        <!-- {{id+content+node+ isArchive}} -->
-        待办内容: {{content}} <br>
-        阶段开始时间: {{history && history[history.length - 1].time}}
+      >
+        <div class="flex">
+          <div class="label">待办内容:</div>
+          <div class="detail">{{content}}</div>
+        </div>
+        <div class="flex">
+          <p class="label">阶段开始时间:</p>
+          <p class="detail">{{history && history[history.length - 1].time}}</p>
+        </div>
 
         <div v-if="isClose">
 
         <table style="width: 100%">
           <tr>
             <td>
-              <van-button type="primary" icon="delete-o" @click="deleteTodoById(id,index)" size="mini">删除</van-button>
+              <van-button type="danger" icon="delete-o" @click="deleteTodoById(id,index)" size="mini">删除</van-button>
             </td>
             <td>
 
@@ -31,31 +36,24 @@
         </table>
         </div>
         <div v-else-if="node === 'done'">
-          <!-- close -->
-          <!-- notes-o -->
-
-        <table style="width: 100%">
-          <tr>
-            <td>
-              <van-button type="primary" icon="close" @click="closeTodo(id, node, index)" size="mini">关闭</van-button>
-            </td>
-            <td>
-
-            </td>
-            <td>
-
-            </td>
-            <td>
-              <van-button type="primary" icon="notes-o" @click="todoArchive(id, index)" size="mini">归档</van-button>
-            </td>
-          </tr>
-        </table>
+          <table style="width: 100%">
+            <tr>
+              <td>
+                <van-button type="warning" icon="close" @click="closeTodo(id, node, index)" size="mini">关闭</van-button>
+              </td>
+              <td></td>
+              <td></td>
+              <td>
+                <van-button type="primary" icon="notes-o" @click="todoArchive(id, index)" size="mini">归档</van-button>
+              </td>
+            </tr>
+          </table>
         </div>
         <div v-else>
           <table style="width: 100%">
             <tr>
               <td>
-                <van-button type="primary" icon="close" @click="closeTodo(id, node, index)" size="mini">关闭</van-button>
+                <van-button type="warning" icon="close" @click="closeTodo(id, node, index)" size="mini">关闭</van-button>
               </td>
               <td>
                 <van-button type="primary" icon="edit" @click="preAddTodo(id, index)" size="mini">编辑</van-button>
@@ -70,22 +68,21 @@
             </tr>
           </table>
         </div>
-
       </van-collapse-item>
     </van-collapse>
-        <table style="width: 100%; position:fixed;bottom: 50px;background-color: white;">
+    <table style="width: 100%; position:fixed;bottom: 50px;background-color: white;">
       <tr>
         <td>
-          <van-button type="primary" @click="accordion = !accordion" size="mini">123</van-button>
+          <van-button type="info" @click="isAccordion" icon="exchange" size="mini">{{text}}</van-button>
         </td>
         <td>
-          <van-button type="primary" @click="expandAll()" size="mini">全部展开</van-button>
+          <van-button type="info" @click="expandAll()" size="mini">全部展开</van-button>
         </td>
         <td>
-          <van-button type="primary" @click="closeTodo(id, node, index)" size="mini">全部折叠</van-button>
+          <van-button type="info" @click="collapseAll()" size="mini">全部折叠</van-button>
         </td>
         <td>
-          <van-button type="primary" @click="preAddTodo()" size="mini">新建待办</van-button>
+          <van-button type="info" @click="preAddTodo()" size="mini" v-if="!isRecycle">新建待办</van-button>
         </td>
       </tr>
     </table>
@@ -103,12 +100,12 @@ export default class MyCollapse extends Vue {
   @Prop()
   private collapseData !: TodoModel.TodoData[];
   @Prop()
-  private accordion = true;
-  @Prop()
-  private activeName !: number | number[];
+  private isRecycle !: boolean;
 
-  @tdMd.Action('saveTodoAction')
-  private saveTodoAction!: ({todo, index}: {todo: TodoModel.TodoData; index: number}) => Promise<TodoModel.TodoData>
+  accordion = true;
+  activeName: any = 0; // number | number[]
+  text = '折叠列表';
+
   @tdMd.Action('closeTodoAction')
   private closeTodoAction!: ({ id, node, index}: {id: string; node: TodoModel.NodeType; index: number}) => Promise<void>
   @tdMd.Action('todoNextAction')
@@ -122,11 +119,25 @@ export default class MyCollapse extends Vue {
   @tdMd.Action('deleteTodoByIdAction')
   private deleteTodoByIdAction!: ({ id, index}: {id: string; index: number}) => Promise<void>
 
-  async saveTodo(values: any){
-    await this.saveTodoAction({todo: values, index: this.$route.params.index as unknown as number})
+  private isAccordion() {
+    this.accordion = !this.accordion;
+    this.activeName = this.accordion
+      ? Math.min(...this.activeName)
+      : typeof this.activeName === 'number'
+        ? [this.activeName]
+        : [];
+    this.text = this.accordion ? '折叠列表' : '手风琴';
   }
+  private expandAll() {
+    this.accordion
+      ? this.$notify({ type: 'warning', message: '手风琴模式不能全部展开' })
+      : this.activeName = this.collapseData.map((_item, i) => i);
+  }
+  private collapseAll() {
+    this.activeName = [];
+  }
+
   async closeTodo(id: string, node: TodoModel.NodeType, index: number){
-    console.log('accordion :>>', this.accordion, this.activeName)
     const closeTodoAction = this.closeTodoAction
     this.$dialog.confirm({
       title: '关闭待办',
@@ -184,19 +195,26 @@ export default class MyCollapse extends Vue {
     })
     .catch(() => { });
   }
-  async test(){
-    console.log(this.accordion)
-    console.log(this.activeName)
-  }
   public preAddTodo(id: string, index: number) {
     this.$emit('preAddTodo', id, index)
   }
 }
 </script>
 
-<style>
+<style scoped >
 td {
   width: 25%;
   text-align: center;
+}
+.flex {
+  display: flex;
+  /* justify-content: space-between; */
+}
+.label {
+  flex: 1;
+  color: #646566;
+}
+.detail {
+  flex: 2;
 }
 </style>

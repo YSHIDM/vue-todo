@@ -17,5 +17,5 @@ declare namespace TodoModel {
     modifier: string;
     updatedAt: string;
   }
-  type NodeType = 'recycle' | 'archive' | 'todo' | 'inProgress' | 'testing' | 'done';
+  type NodeType = 'recycle' | 'archive' | 'plan' | 'inProgress' | 'testing' | 'done';
 }
