@@ -1,24 +1,23 @@
 import ApolloClient from 'apollo-client';
-import {ApolloLink} from 'apollo-link';
+import { ApolloLink } from 'apollo-link';
 import { createUploadLink } from "apollo-upload-client"; // 替换 apollo-like-http 可以上传文件
 import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import {ErrorResponse, onError} from 'apollo-link-error';
+import { ErrorResponse, onError } from 'apollo-link-error';
 import { getToken, setToken } from '@/libs/util';
 import config from "@/config"
 import router from "@/router";
 import { OperationVariables } from "apollo-client/core/types";
 import { MutationOptions, QueryOptions } from "apollo-client/core/watchQueryOptions";
-import {GraphQLError} from "graphql";
-import {ServerError, ServerParseError} from "apollo-link-http-common";
-import {RES_CODE} from "@/api/const";
+import { GraphQLError } from "graphql";
+import { ServerError, ServerParseError } from "apollo-link-http-common";
+import { RES_CODE } from "@/api/const";
 
 const env: any = process.env.NODE_ENV;
 
 const onGraphqlErr = (err: ReadonlyArray<GraphQLError> | undefined) => {
-  if (!err)
-    return;
-  // TODO 处理graphql 错误
-  console.error(err);
+  if (!err) {
+    console.error(err);
+  }
 };
 
 const onServerErr = (err: ServerError) => {
@@ -41,7 +40,7 @@ const onServerErr = (err: ServerError) => {
   }
 };
 
-const onNetworkErr = (err: Error|ServerError|ServerParseError|undefined) => {
+const onNetworkErr = (err: Error | ServerError | ServerParseError | undefined) => {
   if (!err)
     return;
   switch (err.name) {
@@ -49,9 +48,9 @@ const onNetworkErr = (err: Error|ServerError|ServerParseError|undefined) => {
       onServerErr(err as ServerError);
       break;
     case 'ServerParseError':
-    // const response = (err as ServerParseError).response;
-    // const statusCode = (err as ServerParseError).statusCode;
-    // const bodyText = (err as ServerParseError).bodyText;
+      // const response = (err as ServerParseError).response;
+      // const statusCode = (err as ServerParseError).statusCode;
+      // const bodyText = (err as ServerParseError).bodyText;
       console.error(err.message);
       break;
   }

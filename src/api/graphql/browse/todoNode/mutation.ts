@@ -12,3 +12,14 @@ export const saveTodoNodeGql = gql`
     }
   }
 `
+export const saveAllTodoNodeGql = gql`
+  mutation($objArray: [TodoNodeInput]!) {
+    saveAllTodoNode(objArray: $objArray) {
+      code
+      msg
+      data {
+        ${todoNodeField}
+      }
+    }
+  }
+`
