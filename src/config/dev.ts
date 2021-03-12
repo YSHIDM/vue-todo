@@ -4,7 +4,7 @@ interface DevConfig {
   cookieExpires: number;
 }
 
-const serverUrl = 'http://192.168.199.54:7001';
+const serverUrl = 'http://127.0.0.1:7001';
 
 const config: DevConfig = {
   /**

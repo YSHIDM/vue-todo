@@ -1,4 +1,4 @@
-const serverUrl = 'https://yshi.test.utools.club'
+const serverUrl = 'http://127.0.0.1:7001'
 export default {
   /**
    * @description 后端域名

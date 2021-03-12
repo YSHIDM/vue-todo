@@ -56,7 +56,7 @@ export default {
       if (code !== RES_CODE.SUCCESS) {
         return null;
       }
-      commit(SAVE_ALL_TODO_NODE, { todo: data });
+      commit(SAVE_ALL_TODO_NODE, { allTodoNode: data });
     }
   }
 }
