@@ -6,13 +6,24 @@ import md5 from 'js-md5'
 // import BaseComponents from "@/components/base/index" // 这里做了所有的base组件的自动导入
 
 import Vue from "vue";
+// import VueSocketIO from 'vue-socket.io';
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
 import 'vant/lib/index.css';
-import '@/style/var.css'
+import '@/style/var.css';
 
+// Vue.use(new VueSocketIO({
+//     debug: true,
+//     connection: 'http://metinseylan.com:1992',
+//     vuex: {
+//         store,
+//         actionPrefix: 'SOCKET_',
+//         mutationPrefix: 'SOCKET_'
+//     },
+//     options: { path: "/my-app/" } //Optional options
+// }));
 Vue.config.productionTip = false;
 Vue.prototype.$md5 = md5;
 Component.registerHooks([
