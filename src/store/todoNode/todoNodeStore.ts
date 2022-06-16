@@ -1,6 +1,6 @@
 import { Store } from 'vuex';
 import {
-  getAllTodoNode, saveAllTodoNode
+  getAllTodoNode, saveTodoNode
 } from '@/api/graphql/browse/todoNode';
 import { RES_CODE } from "@/api/const";
 import { TodoNode, State } from './type.d';
@@ -46,17 +46,17 @@ export default {
       return data;
     },
     async saveTodoNodeAction({ commit, state }: Store<State>, { todoNode, index }: { todoNode: TodoNode; index: number }) {
-      const allTodoNodeList = state.allTodoNodeList.map(({ alias, title, name }, i) => {
+      const allTodoNode = state.allTodoNodeList.map(({ alias, title, name }, i) => {
         if (i === index) {
           return { alias: todoNode.alias, title: todoNode.title, name: todoNode.name }
         }
         return { alias, title, name }
       })
-      const { code, data } = await saveAllTodoNode(allTodoNodeList);
+      const { code } = await saveTodoNode(todoNode);
       if (code !== RES_CODE.SUCCESS) {
         return null;
       }
-      commit(SAVE_ALL_TODO_NODE, { allTodoNode: data });
+      commit(SAVE_ALL_TODO_NODE, { allTodoNode });
     }
   }
 }

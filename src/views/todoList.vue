@@ -1,12 +1,16 @@
 <template>
   <div class="todoList">
     <van-nav-bar title="待办列表" />
-    <van-tabs v-model="active" @change="getCollapseData" sticky>
+    <van-tabs
+      v-model="active"
+      @change="getCollapseData"
+      sticky
+    >
       <van-tab
-      v-for="(item,index) in todoNodeList"
-      :key="index"
-      :title="item.alias || item.title"
-      :name="item.name"
+        v-for="(item,index) in todoNodeList"
+        :key="index"
+        :title="item.alias || item.title"
+        :name="item.name"
       >
         <MyCollapse
           :collapseData="collapseData(name)"
@@ -21,7 +25,12 @@
       round
       :style="{ height: '100%',width: '80%' }"
     >
-      <AddTodo :id="id" :index="index" v-if="show" @closeAddTodo="show = false"/>
+      <AddTodo
+        :id="id"
+        :index="index"
+        v-if="show"
+        @closeAddTodo="show = false"
+      />
     </van-popup>
   </div>
 </template>
@@ -48,14 +57,14 @@ export default class TodoList extends Vue {
   index = -1;
   // 手风琴
   active = 0;
-  name = 'plan';
+  name: 'planning' | 'ongoing' | 'testing' | 'done' = 'planning';
 
   @tdMd.Getter('getTodoList')
-  private collapseData!: (type?: TodoModel.NodeType) => Array<TodoModel.TodoData>
+  public collapseData!: (type?: TodoModel.NodeType) => Array<TodoModel.TodoData>
   @tnMd.Getter('getTodoNodeList')
-  private todoNodeList!: Array<TodoNodeModel.TodoNodeData>
+  public todoNodeList!: Array<TodoNodeModel.TodoNodeData>
 
-  public getCollapseData(name: 'plan' | 'inProgress' | 'testing' | 'done'){
+  public getCollapseData(name: 'planning' | 'ongoing' | 'testing' | 'done'){
     this.name = name
   }
   preAddTodo(id = '', index = this.index) {

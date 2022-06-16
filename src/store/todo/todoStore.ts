@@ -24,8 +24,8 @@ export default {
     allTodoList: {
       recycle: [],
       archive: [],
-      plan: [],
-      inProgress: [],
+      planning: [],
+      ongoing: [],
       testing: [],
       done: [],
     },
@@ -33,7 +33,7 @@ export default {
 
   getters: {
     getTodoList(state: State): (type?: NodeType) => Array<TodoModel.TodoData> {
-      return (type: NodeType = 'plan'): Array<TodoModel.TodoData> => state.allTodoList[type] || []
+      return (type: NodeType = 'planning'): Array<TodoModel.TodoData> => state.allTodoList[type] || []
     }
   },
 
@@ -88,8 +88,8 @@ export default {
       const allTodoList: AllTodoList = {
         recycle: [],
         archive: [],
-        plan: [],
-        inProgress: [],
+        planning: [],
+        ongoing: [],
         testing: [],
         done: [],
       };
@@ -98,10 +98,10 @@ export default {
           allTodoList.recycle.push(todo);
         } else if (todo.isArchive) {
           allTodoList.archive.push(todo);
-        } else if (todo.node === "plan") {
-          allTodoList.plan.push(todo);
-        } else if (todo.node === "inProgress") {
-          allTodoList.inProgress.push(todo);
+        } else if (todo.node === "planning") {
+          allTodoList.planning.push(todo);
+        } else if (todo.node === "ongoing") {
+          allTodoList.ongoing.push(todo);
         } else if (todo.node === "testing") {
           allTodoList.testing.push(todo);
         } else if (todo.node === "done") {

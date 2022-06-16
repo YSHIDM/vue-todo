@@ -37,10 +37,10 @@ ALTER TABLE "public"."todo_node" OWNER TO "postgres";
 -- Records of todo_node
 -- ----------------------------
 BEGIN;
-INSERT INTO "public"."todo_node" VALUES ('TDND002', 'inProgress', '进行中', '进行', NULL, '2020-12-28 18:38:21', NULL, '2020-12-29 10:42:42.032');
-INSERT INTO "public"."todo_node" VALUES ('TDND003', 'testing', '测试中', '测试', NULL, '2020-12-28 18:38:25', NULL, '2020-12-29 10:42:49.861');
-INSERT INTO "public"."todo_node" VALUES ('TDND004', 'done', '已完成', '完成', NULL, '2020-12-28 18:38:28', NULL, '2020-12-29 10:44:38.282');
-INSERT INTO "public"."todo_node" VALUES ('TDND001', 'plan', '待办', '计划', NULL, '2020-12-28 18:38:12', NULL, '2020-12-30 15:53:14.357');
+INSERT INTO "public"."todo_node" VALUES ('TONO001', 'planning', '计划中', '计划', NULL, '2022-06-01 18:43:12', NULL, '2022-06-01 18:43:12');
+INSERT INTO "public"."todo_node" VALUES ('TONO002', 'ongoing', '进行中', '进行', NULL, '2022-06-01 18:43:13', NULL, '2022-06-01 18:43:13');
+INSERT INTO "public"."todo_node" VALUES ('TONO003', 'testing', '测试中', '测试', 'YSHI', '2022-06-01 18:43:14', NULL, '2022-06-01 18:43:14');
+INSERT INTO "public"."todo_node" VALUES ('TONO004', 'done', '已完成', '完成', NULL, '2022-06-01 18:43:15', NULL, '2022-06-01 18:43:15');
 COMMIT;
 
 -- ----------------------------

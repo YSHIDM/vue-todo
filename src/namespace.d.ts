@@ -12,5 +12,5 @@ declare namespace ComponentDataType {
     text: string;
     children: Array<SelectedOptionChild>;
   }
-  // type NodeType = 'recycle' | 'archive' | 'plan' | 'inProgress' | 'testing' | 'done';
+  // type NodeType = 'recycle' | 'archive' | 'planning' | 'ongoing' | 'testing' | 'done';
 }

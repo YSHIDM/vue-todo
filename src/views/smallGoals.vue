@@ -1,10 +1,17 @@
 <template>
   <div>
-    <van-nav-bar title="一个小目标" :fixed="true" />
+    <van-nav-bar
+      title="一个小目标"
+      :fixed="true"
+    />
     <div style="height: 46px;"></div>
-    <TodoPicker/>
-    <TimePicker @openCountDown="openCountDown"/>
-    <CountDown v-show="showCountDown" :time="time" @closeCountDown="show = false"/>
+    <TodoPicker />
+    <TimePicker @openCountDown="openCountDown" />
+    <CountDown
+      v-show="showCountDown"
+      :time="time"
+      @closeCountDown="show = false"
+    />
 
   </div>
 </template>
@@ -23,6 +30,7 @@ import CountDown from '@/components/smallGoals/CountDown.vue';
   }
 })
 export default class SmallGoals extends Vue {
+  show = false
   showCountDown = false;
   time = 0;
 

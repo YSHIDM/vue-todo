@@ -16,10 +16,27 @@
       @finish="finish"
     />
     <van-grid clickable>
-      <van-grid-item text="开始" icon="play-circle-o" @click="start" />
-      <van-grid-item text="暂停" icon="pause-circle-o" @click="pause" />
-      <van-grid-item text="重置" icon="revoke" @click="reset" />
-      <van-grid-item text="安静" icon="stop-circle-o" v-show="showStop" @click="stop" />
+      <van-grid-item
+        text="开始"
+        icon="play-circle-o"
+        @click="start"
+      />
+      <van-grid-item
+        text="暂停"
+        icon="pause-circle-o"
+        @click="pause"
+      />
+      <van-grid-item
+        text="重置"
+        icon="revoke"
+        @click="reset"
+      />
+      <van-grid-item
+        text="安静"
+        icon="stop-circle-o"
+        v-show="showStop"
+        @click="stop"
+      />
     </van-grid>
   </div>
 </template>
@@ -32,9 +49,9 @@ export default class CountDown extends Vue {
   showStop = false;
 
   @Prop()
-  private show!: boolean;
+  public show!: boolean;
   @Prop()
-  private time!: number;
+  public time!: number;
 
   start() {
     (this.$refs.countDown as any).start();
@@ -57,7 +74,7 @@ export default class CountDown extends Vue {
     this.showStop = true;
     setTimeout(() => {
       this.stop()
-    }, 10000);
+    }, 9000);
   }
 }
 </script>

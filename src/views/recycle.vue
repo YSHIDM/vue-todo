@@ -1,8 +1,14 @@
 <template>
   <div>
-    <van-nav-bar title="待办回收站" :fixed="true" />
+    <van-nav-bar
+      title="待办回收站"
+      :fixed="true"
+    />
     <div style="height: 46px;"></div>
-    <MyCollapse :collapseData="getTodoList('recycle')" :isRecycle="true"/>
+    <MyCollapse
+      :collapseData="getTodoList('recycle')"
+      :isRecycle="true"
+    />
   </div>
 </template>
 
@@ -20,6 +26,6 @@ const tdMd = namespace("todoStore")
 })
 export default class Recycle extends Vue {
   @tdMd.Getter('getTodoList')
-  private getTodoList!: (type?: TodoModel.NodeType) => Array<TodoModel.TodoData>
+  public getTodoList!: (type?: TodoModel.NodeType) => Array<TodoModel.TodoData>
 }
 </script>

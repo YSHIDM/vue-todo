@@ -8,7 +8,11 @@
       placeholder="选择时间"
       @click="show = true"
     />
-    <van-popup v-model="show" round position="bottom">
+    <van-popup
+      v-model="show"
+      round
+      position="bottom"
+    >
       <van-picker
         show-toolbar
         title="选择时长"
@@ -38,7 +42,7 @@ export default class TimePicker extends Vue {
   value = '';
   show = false;
 
-  private get timeOptions(){
+  public get timeOptions(){
     return [{
       values: this.getNumStrArray(24)
     }, {
@@ -48,7 +52,7 @@ export default class TimePicker extends Vue {
     }]
   }
 
-  private onConfirm(value: string[]) {
+  public onConfirm(value: string[]) {
     this.value = value.join(':')
     const [hour, minute, second] = value;
     const time = (hour as unknown as number) * 3600 * 1000

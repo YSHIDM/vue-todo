@@ -1,8 +1,11 @@
-<<template>
+<template>
   <div>
-    <van-nav-bar title="待办设置" :fixed="true" />
+    <van-nav-bar
+      title="待办设置"
+      :fixed="true"
+    />
     <div style="height: 46px;"></div>
-    <TodoNodeList/>
+    <TodoNodeList />
   </div>
 </template>
 
