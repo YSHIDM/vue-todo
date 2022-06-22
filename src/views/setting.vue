@@ -14,11 +14,11 @@
 
   const TodoNodeList = () => import('@/components/TodoNodeList.vue')
 
-@Component({
-  components: {
-    TodoNodeList
-  }
-})
+  @Component({
+    components: {
+      TodoNodeList
+    }
+  })
   export default class Setting extends Vue {
 
   }
