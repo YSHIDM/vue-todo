@@ -13,6 +13,7 @@
     </van-tabbar>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Watch, Vue } from 'vue-property-decorator'
 
@@ -22,8 +23,8 @@ export default class MyLife extends Vue {
   navigateArray: Array<any> = [
     {
       name: '首页',
-      icon: 'todo-list',
-      to: 'todoList',
+      icon: 'smile-o',
+      to: 'homePage',
     },
     {
       name: '小目标',
@@ -32,7 +33,7 @@ export default class MyLife extends Vue {
     },
     {
       name: '设置',
-      icon: 'setting',
+      icon: 'setting-o',
       to: 'setting',
     },
   ]

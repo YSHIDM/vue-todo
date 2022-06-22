@@ -15,7 +15,20 @@ const routes: Array<RouteConfig> = [{
 }, {
   path: '/myLife', // 默认路径
   name: 'myLife',
-  component: () => import('../views/myLife.vue')
+  component: () => import('../views/myLife.vue'),
+  children: [{
+    path: '/homePage',
+    name: 'homePage',
+    component: () => import('../views/homePage.vue')
+  }, {
+    path: '/smallGoals',
+    name: 'smallGoals',
+    component: () => import('../views/smallGoals.vue')
+  }, {
+    path: '/setting',
+    name: 'setting',
+    component: () => import('../views/setting.vue')
+  }],
 }, {
   path: '/todoList',
   name: 'todoList',
@@ -24,22 +37,6 @@ const routes: Array<RouteConfig> = [{
   path: '/archiveTodo',
   name: 'archiveTodo',
   component: () => import('../views/archiveTodo.vue')
-}, {
-  path: '/smallGoals',
-  name: 'smallGoals',
-  component: () => import('../views/smallGoals.vue')
-}, {
-  path: '/recycle',
-  name: 'recycle',
-  component: () => import('../views/recycle.vue')
-}, {
-  path: '/setting',
-  name: 'setting',
-  component: () => import('../views/setting.vue')
-}, {
-  path: '/map',
-  name: 'map',
-  component: () => import('../views/messageMap.vue')
 }]
 
 // {
