@@ -10,9 +10,9 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'vue-property-decorator';
+  import { Component, Vue } from 'vue-property-decorator'
 
-  const TodoNodeList = () => import('@/components/TodoNodeList.vue');
+  const TodoNodeList = () => import('@/components/TodoNodeList.vue')
 
 @Component({
   components: {

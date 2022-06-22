@@ -13,9 +13,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 import MyCollapse from '@/components/MyCollapse.vue'
-import {namespace} from "vuex-class";
+import {namespace} from "vuex-class"
 
 const tdMd = namespace("todoStore")
 

@@ -3,7 +3,8 @@ module.exports = {
   // zhengkai.blog.csdn.net
   runtimeCompiler: true,
   devServer: {
-    disableHostCheck: true,
+    historyApiFallback: true,
+    allowedHosts: 'all',
     port: 8881,
   }
 }

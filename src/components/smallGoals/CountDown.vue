@@ -3,7 +3,7 @@
     <audio
       controls="controls"
       hidden
-      src="/static/tip.mp3"
+      src="/static/audio/tip.mp3"
       ref="audio"
       currentTime=""
     ></audio>
@@ -42,39 +42,39 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component
 export default class CountDown extends Vue {
-  showStop = false;
+  showStop = false
 
   @Prop()
-  public show!: boolean;
+  public show!: boolean
   @Prop()
-  public time!: number;
+  public time!: number
 
   start() {
-    (this.$refs.countDown as any).start();
+    (this.$refs.countDown as any).start()
   }
   pause() {
-    (this.$refs.countDown as any).pause();
+    (this.$refs.countDown as any).pause()
   }
   reset() {
-    (this.$refs.countDown as any).reset();
-    this.stop();
+    (this.$refs.countDown as any).reset()
+    this.stop()
   }
   stop() {
-    (this.$refs.audio as any).pause();
-    this.showStop = false;
+    (this.$refs.audio as any).pause()
+    this.showStop = false
   }
   finish() {
     this.$toast('倒计时结束');
     (this.$refs.audio as any).currentTime = 0; // 从头开始播放提示音
-    (this.$refs.audio as any).play(); // 播放 ended 结束
-    this.showStop = true;
+    (this.$refs.audio as any).play() // 播放 ended 结束
+    this.showStop = true
     setTimeout(() => {
       this.stop()
-    }, 9000);
+    }, 9000)
   }
 }
 </script>

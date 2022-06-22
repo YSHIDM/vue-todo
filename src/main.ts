@@ -1,18 +1,18 @@
-import { Component } from "vue-property-decorator"
-import Vant from 'vant';
+import { Component } from 'vue-property-decorator'
+import Vant from 'vant'
 import AmapVue from '@amap/amap-vue'
 import md5 from 'js-md5'
-// import Validate from "@/plugins/validate"
-// import BaseComponents from "@/components/base/index" // 这里做了所有的base组件的自动导入
+// import Validate from '@/plugins/validate'
+// import BaseComponents from '@/components/base/index' // 这里做了所有的base组件的自动导入
 
-import Vue from "vue";
+import Vue from 'vue'
 // import VueSocketIO from 'vue-socket.io';
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import App from './App.vue'
+import router from './router'
+import store from './store'
 
-import 'vant/lib/index.css';
-import '@/style/var.css';
+import 'vant/lib/index.css'
+import '@/style/var.css'
 
 // Vue.use(new VueSocketIO({
 //     debug: true,
@@ -22,15 +22,15 @@ import '@/style/var.css';
 //         actionPrefix: 'SOCKET_',
 //         mutationPrefix: 'SOCKET_'
 //     },
-//     options: { path: "/my-app/" } //Optional options
+//     options: { path: '/my-app/' } //Optional options
 // }));
-Vue.config.productionTip = false;
-Vue.prototype.$md5 = md5;
+Vue.config.productionTip = false
+Vue.prototype.$md5 = md5
 Component.registerHooks([
-  "beforeRouteLeave"
-]);
+  'beforeRouteLeave'
+])
 
-Vue.use(Vant);
+Vue.use(Vant)
 
 AmapVue.config.version = '2.0'
 AmapVue.config.plugins = [
@@ -47,4 +47,4 @@ new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount("#app");
+}).$mount('#app')

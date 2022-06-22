@@ -17,10 +17,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import TodoPicker from '@/components/smallGoals/TodoPicker.vue';
-import TimePicker from '@/components/smallGoals/TimePicker.vue';
-import CountDown from '@/components/smallGoals/CountDown.vue';
+import { Component, Vue } from 'vue-property-decorator'
+import TodoPicker from '@/components/smallGoals/TodoPicker.vue'
+import TimePicker from '@/components/smallGoals/TimePicker.vue'
+import CountDown from '@/components/smallGoals/CountDown.vue'
 
 @Component({
   components: {
@@ -31,15 +31,15 @@ import CountDown from '@/components/smallGoals/CountDown.vue';
 })
 export default class SmallGoals extends Vue {
   show = false
-  showCountDown = false;
-  time = 0;
+  showCountDown = false
+  time = 0
 
   public openCountDown(time: number) {
-    this.time = time;
+    this.time = time
     if (time > 0) {
-      this.showCountDown = true;
+      this.showCountDown = true
     } else {
-      this.showCountDown = false;
+      this.showCountDown = false
     }
   }
 }

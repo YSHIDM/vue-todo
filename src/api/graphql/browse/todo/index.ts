@@ -1,5 +1,5 @@
-import { query, mutation } from '@/api/config';
-import { getAllTodoGql, getTodoByIdGql } from './query';
+import { query, mutation } from '@/api/config'
+import { getAllTodoGql, getTodoByIdGql } from './query'
 import {
   saveTodoGql,
   deleteTodoByIdGql,
@@ -8,7 +8,7 @@ import {
   closeTodoGql,
   restoreTodoGql,
   todoArchiveGql,
-} from './mutation';
+} from './mutation'
 
 export const getAllTodo = (): Promise<HttpRes<Array<TodoModel.TodoData>>> => query({
   query: getAllTodoGql,

@@ -47,8 +47,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue} from 'vue-property-decorator';
-import {namespace} from "vuex-class";
+import { Component, Vue} from 'vue-property-decorator'
+import {namespace} from "vuex-class"
 
 const tdMd = namespace("todoStore")
 
@@ -71,7 +71,7 @@ export default class ArchiveTodo extends Vue {
       })
     .catch(e => {
       console.log('e :>>', e)
-    });
+    })
   }
 }
 

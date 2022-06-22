@@ -1,5 +1,5 @@
-import gql from 'graphql-tag';
-import todoNodeField from './field';
+import gql from 'graphql-tag'
+import todoNodeField from './field'
 
 export const getAllTodoNodeGql = gql`
 query {

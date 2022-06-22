@@ -5,10 +5,10 @@
       accordion
     >
       <van-collapse-item
-      v-for="(todoNode, index) in todoNodeList"
-      :key="index"
-      :title="todoNode.alias || todoNode.title"
-      :name="index"
+        v-for="(todoNode, index) in todoNodeList"
+        :key="index"
+        :title="todoNode.alias || todoNode.title"
+        :name="index"
       >
         <van-form @submit="saveTodoNode">
           <van-field
@@ -29,7 +29,12 @@
             placeholder="节点别名"
           />
           <div style="margin: 16px;">
-            <van-button round block type="info" native-type="submit">提交</van-button>
+            <van-button
+              round
+              block
+              type="info"
+              native-type="submit"
+            >提交</van-button>
           </div>
         </van-form>
       </van-collapse-item>
@@ -38,15 +43,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import {namespace} from "vuex-class";
+import { Component, Vue } from 'vue-property-decorator'
+import {namespace} from "vuex-class"
 
 const tnMd = namespace("todoNodeStore")
 
 @Component
 export default class TodoNodeList extends Vue {
   activeName: number | number[] = []
-  todoNodeList: TodoNodeModel.TodoNodeData[] = [];
+  todoNodeList: TodoNodeModel.TodoNodeData[] = []
 
   @tnMd.Action('getAllTodoNodeAction')
   private getAllTodoNodeAction!: () => Promise<Array<TodoNodeModel.TodoNodeData>>

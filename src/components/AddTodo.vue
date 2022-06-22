@@ -1,8 +1,6 @@
 <template>
   <div class="addTodo">
-    <van-nav-bar
-      :title="!id ? '新建待办' : '修改待办'"
-    />
+    <van-nav-bar :title="!id ? '新建待办' : '修改待办'" />
     <van-form @submit="saveTodo">
       <van-field
         v-if="todo"
@@ -21,33 +19,38 @@
         placeholder="待办内容"
       />
       <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit">提交</van-button>
+        <van-button
+          round
+          block
+          type="info"
+          native-type="submit"
+        >提交</van-button>
       </div>
     </van-form>
   </div>
 </template>
 
 <script lang="ts">
-import { Notify } from 'vant';
-import { Component, Vue, Prop} from 'vue-property-decorator';
-import { namespace } from "vuex-class";
+import { Notify } from 'vant'
+import { Component, Vue, Prop} from 'vue-property-decorator'
+import { namespace } from "vuex-class"
 
 const tdMd = namespace("todoStore")
 
 @Component
 export default class AddTodo extends Vue {
   @Prop()
-  private id !: string;
+  private id !: string
   @Prop()
-  private index !: number;
-  todo = { title: '', content: '' };
+  private index !: number
+  todo = { title: '', content: '' }
 
   @tdMd.Action('getTodoByIdAction')
   private getTodoByIdAction!: (id: string) => Promise<TodoModel.TodoData>
   @tdMd.Action('saveTodoAction')
   private saveTodoAction!: ({todo, index}: {todo: TodoModel.TodoData; index: number}) => Promise<TodoModel.TodoData>
 
-  activeName = 0;
+  activeName = 0
   async saveTodo(values: any){
     await this.saveTodoAction({todo: {...values, id: this.id }, index: this.index as unknown as number})
     let message = '保存成功'

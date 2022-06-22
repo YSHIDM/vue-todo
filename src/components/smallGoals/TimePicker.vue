@@ -35,12 +35,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class TimePicker extends Vue {
-  value = '';
-  show = false;
+  value = ''
+  show = false
 
   public get timeOptions(){
     return [{
@@ -54,18 +54,18 @@ export default class TimePicker extends Vue {
 
   public onConfirm(value: string[]) {
     this.value = value.join(':')
-    const [hour, minute, second] = value;
+    const [hour, minute, second] = value
     const time = (hour as unknown as number) * 3600 * 1000
       + (minute as unknown as number) * 60 * 1000
-      + (second as unknown as number) * 1000;
-    this.show = false;
+      + (second as unknown as number) * 1000
+    this.show = false
 
-    this.$emit('openCountDown', time);
+    this.$emit('openCountDown', time)
   }
   private getNumStrArray(n: number){
-    const arr = [];
+    const arr = []
     for (let i = 0; i < n; i++) {
-      arr[i] = i.toString().padStart(2, '0');
+      arr[i] = i.toString().padStart(2, '0')
     }
     return arr
   }

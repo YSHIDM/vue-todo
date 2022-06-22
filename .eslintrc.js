@@ -5,7 +5,10 @@ module.exports = {
     browser: true,
   },
   globals: {
-    wx: true
+    wx: true,
+    TodoModel: true,
+    TodoNodeModel: true,
+    ComponentDataType: true,
   },
   // extends是扩展插件的意思，eslint的airbnb规范相关vue插件必须安装！
   extends: [
@@ -17,7 +20,11 @@ module.exports = {
     ecmaVersion: 2020,
   },
   rules: {
-    semi: 'off',
+    semi: [
+      'error',
+      'never'
+    ],
+    // singleQuote: true,
     'no-console': 'off',
     'no-debugger': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -73,4 +80,4 @@ module.exports = {
     'no-nested-ternary': 'off',
     'import/no-cycle': 'off'
   },
-};
+}

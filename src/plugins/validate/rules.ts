@@ -94,4 +94,4 @@ export const formatList = [
         name: '正整数或保留三位小数',
         value: /^\d+(\.\d{0,3})?$/,
     },
-];
+]

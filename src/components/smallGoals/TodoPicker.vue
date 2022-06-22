@@ -8,7 +8,11 @@
       placeholder="选择待办"
       @click="showPicker = true"
     />
-    <van-popup v-model="showPicker" round position="bottom">
+    <van-popup
+      v-model="showPicker"
+      round
+      position="bottom"
+    >
       <van-picker
         ref="picker"
         show-toolbar
@@ -28,13 +32,26 @@
       placeholder="待办内容"
       readonly
     />
-    <table style="width: 100%;" v-if="content">
+    <table
+      style="width: 100%;"
+      v-if="content"
+    >
       <tr>
         <td>
-          <van-button type="warning" icon="close" @click="reset" size="small">重置</van-button>
+          <van-button
+            type="warning"
+            icon="close"
+            @click="reset"
+            size="small"
+          >重置</van-button>
         </td>
         <td>
-          <van-button  type="primary" icon="passed" @click="todoNext" size="small">下一步</van-button>
+          <van-button
+            type="primary"
+            icon="passed"
+            @click="todoNext"
+            size="small"
+          >下一步</van-button>
         </td>
       </tr>
     </table>
@@ -42,29 +59,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { namespace } from "vuex-class";
+import { Component, Vue } from 'vue-property-decorator'
+import { namespace } from "vuex-class"
 
 const tdMd = namespace("todoStore")
 const tnMd = namespace("todoNodeStore")
 
 @Component
 export default class TodoPicker extends Vue {
-  content = '';
-  showPicker = false;
-  fieldValue = '';
-  cascaderValue = '';
+  content = ''
+  showPicker = false
+  fieldValue = ''
+  cascaderValue = ''
 
   @tdMd.Getter('getTodoList')
-  private getTodoList!: (type?: TodoModel.NodeType) => Array<TodoModel.TodoData>;
+  private getTodoList!: (type?: TodoModel.NodeType) => Array<TodoModel.TodoData>
   @tnMd.Getter('getTodoNodeList')
-  private getTodoNodeList!: Array<TodoNodeModel.TodoNodeData>;
+  private getTodoNodeList!: Array<TodoNodeModel.TodoNodeData>
   @tdMd.Action('todoNextAction')
   private todoNextAction!: ({ id, node, index}: {id: string; node: TodoModel.NodeType; index: number}) => Promise<void>
 
   async todoNext(){
-    const { id, node } = (this.$refs.picker as any).getColumnValue(1).todo;
-    const index = (this.$refs.picker as any).getColumnIndex(1);
+    const { id, node } = (this.$refs.picker as any).getColumnValue(1).todo
+    const index = (this.$refs.picker as any).getColumnIndex(1)
     const todoNextAction = this.todoNextAction
     this.$dialog.confirm({
       title: '进入下一步',
@@ -73,19 +90,19 @@ export default class TodoPicker extends Vue {
     .then(async (): Promise<void> => {
       await todoNextAction({ id, node, index })
       this.$notify({ type: 'success', message: '操作成功' })
-      this.fieldValue = '';
-      this.content = '';
+      this.fieldValue = ''
+      this.content = ''
     })
     .catch(() => {
-    });
+    })
   }
   private reset() {
-    this.fieldValue = '';
-    this.content = '';
+    this.fieldValue = ''
+    this.content = ''
   }
   private onConfirm(value: string[]) {
-    this.fieldValue = value.join(' -> ');
-    this.showPicker = false;
+    this.fieldValue = value.join(' -> ')
+    this.showPicker = false
 
     const todo = (this.$refs.picker as any).getColumnValue(1).todo
     this.content = todo.content

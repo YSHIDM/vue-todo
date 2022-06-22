@@ -36,11 +36,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { namespace } from "vuex-class";
-import MyCollapse from '@/components/MyCollapse.vue';
+import { Component, Vue } from 'vue-property-decorator'
+import { namespace } from "vuex-class"
+import MyCollapse from '@/components/MyCollapse.vue'
 
-const AddTodo = () => import('@/components/AddTodo.vue');
+const AddTodo = () => import('@/components/AddTodo.vue')
 
 const tdMd = namespace("todoStore")
 const tnMd = namespace("todoNodeStore")
@@ -52,12 +52,12 @@ const tnMd = namespace("todoNodeStore")
   }
 })
 export default class TodoList extends Vue {
-  show = false;
-  id = '';
-  index = -1;
+  show = false
+  id = ''
+  index = -1
   // 手风琴
-  active = 0;
-  name: 'planning' | 'ongoing' | 'testing' | 'done' = 'planning';
+  active = 0
+  name: 'planning' | 'ongoing' | 'testing' | 'done' = 'planning'
 
   @tdMd.Getter('getTodoList')
   public collapseData!: (type?: TodoModel.NodeType) => Array<TodoModel.TodoData>
@@ -68,9 +68,9 @@ export default class TodoList extends Vue {
     this.name = name
   }
   preAddTodo(id = '', index = this.index) {
-    this.id = id;
-    this.index = index;
-    this.show = true;
+    this.id = id
+    this.index = index
+    this.show = true
   }
 }
 </script>

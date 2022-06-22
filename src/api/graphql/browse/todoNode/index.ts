@@ -1,6 +1,6 @@
-import { query, mutation } from '@/api/config';
-import { getAllTodoNodeGql } from './query';
-import { saveTodoNodeGql, saveAllTodoNodeGql } from './mutation';
+import { query, mutation } from '@/api/config'
+import { getAllTodoNodeGql } from './query'
+import { saveTodoNodeGql, saveAllTodoNodeGql } from './mutation'
 
 export const getAllTodoNode = (): Promise<HttpRes<Array<TodoNodeModel.TodoNodeData>>> => query({
   query: getAllTodoNodeGql,
