@@ -5,7 +5,7 @@
       :fixed="true"
     />
     <div style="height: 46px;"></div>
-    <MyCollapse
+    <TaskCollapse
       :collapseData="getTodoList('recycle')"
       :isRecycle="true"
     />
@@ -14,18 +14,18 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import MyCollapse from '@/components/MyCollapse.vue'
+import TaskCollapse from '@/components/task/TaskCollapse.vue'
 import {namespace} from "vuex-class"
 
 const tdMd = namespace("todoStore")
 
 @Component({
   components: {
-    MyCollapse,
+    TaskCollapse,
   }
 })
 export default class Recycle extends Vue {
   @tdMd.Getter('getTodoList')
-  public getTodoList!: (type?: TodoModel.NodeType) => Array<TodoModel.TodoData>
+  public getTodoList!: (type?: TodoModel.TodoType) => Array<TodoModel.Todo>
 }
 </script>

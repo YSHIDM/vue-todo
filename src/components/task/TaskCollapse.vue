@@ -1,5 +1,5 @@
 <template>
-  <div class="tasklist">
+  <div class="taskcollapse">
     <van-collapse
       v-model="activeName"
       :accordion="accordion"
@@ -11,7 +11,7 @@
         :name="index"
       >
         <div class="flex">
-          <div class="label">待办内容:</div>
+          <div class="label">任务内容:</div>
           <div class="detail">{{content}}</div>
         </div>
         <div class="flex">
@@ -141,7 +141,7 @@
             @click="preAddTask()"
             size="mini"
             v-if="!isRecycle"
-          >新建待办</van-button>
+          >新建任务</van-button>
         </td>
       </tr>
     </table>
@@ -155,7 +155,7 @@ import {namespace} from "vuex-class"
 const tkMd = namespace("taskStore")
 
 @Component
-export default class MyCollapse extends Vue {
+export default class TaskCollapse extends Vue {
   // @Prop()
   // private collapseData !: TaskModel.TaskData[]
   @Prop()
@@ -204,12 +204,12 @@ export default class MyCollapse extends Vue {
   async closeTask(id: string, taskType: TaskModel.TaskType, index: number){
     const closeTaskAction = this.closeTaskAction
     this.$dialog.confirm({
-      title: '关闭待办',
-      message: '确认关闭待办?'
+      title: '关闭任务',
+      message: '确认关闭任务?'
     })
     .then(async (): Promise<void> => {
         await closeTaskAction({ id, taskType, index })
-        this.$notify({ type: 'success', message: '成功关闭待办' })
+        this.$notify({ type: 'success', message: '成功关闭任务' })
       })
     .catch(() => {
     })
@@ -218,7 +218,7 @@ export default class MyCollapse extends Vue {
     const taskNextAction = this.taskNextAction
     this.$dialog.confirm({
       title: '进入下一步',
-      message: '待办进入下一步骤?'
+      message: '任务进入下一步骤?'
     })
     .then(async (): Promise<void> => {
       await taskNextAction({ id, taskType, index })
@@ -230,32 +230,32 @@ export default class MyCollapse extends Vue {
   async taskDone(id: string, taskType: TaskModel.TaskType, index: number){
     const taskDoneAction = this.taskDoneAction
     this.$dialog.confirm({
-      title: '完成待办',
-      message: '结束待办任务?'
+      title: '完成任务',
+      message: '结束任务任务?'
     })
     .then(async (): Promise<void> => {
       await taskDoneAction({ id, taskType, index })
-      this.$notify({ type: 'success', message: '待办已完成' })
+      this.$notify({ type: 'success', message: '任务已完成' })
     })
     .catch(() => { })
   }
   async taskArchive(id: string, index: number){
     await this.taskArchiveAction({ id, index })
-    this.$notify({ type: 'success', message: '待办已归档' })
+    this.$notify({ type: 'success', message: '任务已归档' })
   }
   async restoreTask(id: string, index: number){
     await this.restoreTaskAction({ id, index })
-    this.$notify({ type: 'success', message: '待办已还原' })
+    this.$notify({ type: 'success', message: '任务已还原' })
   }
   async deleteTaskById(id: string, index: number) {
     const deleteTaskByIdAction = this.deleteTaskByIdAction
     this.$dialog.confirm({
       title: '彻底删除',
-      message: '彻底删除待办?'
+      message: '彻底删除任务?'
     })
     .then(async (): Promise<void> => {
       await deleteTaskByIdAction({ id, index })
-      this.$notify({ type: 'success', message: '待办已彻底删除' })
+      this.$notify({ type: 'success', message: '任务已彻底删除' })
     })
     .catch(() => { })
   }
@@ -265,7 +265,6 @@ export default class MyCollapse extends Vue {
 
   async created(){
     this.collapseData = await this.getTaskByTypeAction(this.typeName)
-    console.log('this.collapseData :>>', this.collapseData)
   }
 }
 </script>

@@ -1,119 +1,146 @@
 import { Store } from 'vuex'
 import {
-  getAllTodo, saveTodo, getTodoById, closeTodo, todoNext, todoDone, todoArchive, restoreTodo, deleteTodoById
-} from '@/api/graphql/browse/todo'
+  saveTodo,
+  getPage,
+  getTodoById,
+  deleteTodoById,
+  todoArchive,
+  todoAbide,
+} from '@/api/axios/todo'
 import { RES_CODE } from "@/api/const"
 import {
-  State, AllTodoList, Todo, NodeType
+  State, Todo, TodoType
 } from './type.d'
 
-// getAllTodo, saveTodo, deleteTodoById, todoNext, todoDone, closeTodo, restoreTodo, todoArchive
-const GET_ALL_TODO = 'GET_ALL_TODO' // 修改角色列表
-const SAVE_TODO = 'SAVE_TODO' // 添加角色
-const DELETE_TODO_BY_ID = 'DELETE_TODO_BY_ID' // 更新角色列表
-const TODO_NEXT = 'TODO_NEXT' // 设置角色对应的用户
-const TODO_DONE = 'TODO_DONE' // 修改当前角色主管
-const CLOSE_TODO = 'CLOSE_TODO' // 删除角色关联人员
-const RESTORE_TODO = 'RESTORE_TODO' // 添加角色关联人员
-const TODO_ARCHIVE = 'todoArchive' // 添加角色关联人员
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
+const SET_TOTAL_PAGE = 'SET_TOTAL_PAGE'
+const SET_TODO_PAGE_BY_TYPE = 'SET_TODO_PAGE_BY_TYPE'
+const SAVE_TODO = 'SAVE_TODO'
+const DELETE_TODO_BY_ID = 'DELETE_TODO_BY_ID'
+const TODO_ARCHIVE = 'TODO_ARCHIVE'
+const TODO_ABIDE = 'TODO_ABIDE'
 
 export default {
   namespaced: true,
   state: {
-    isInit: false,
-    allTodoList: {
-      recycle: [],
-      archive: [],
-      planning: [],
-      ongoing: [],
-      testing: [],
-      done: [],
+    ongoing: {
+      currentPage: 0,
+      totalPages: 0,
+      rows: []
     },
+    archive: {
+      currentPage: 0,
+      totalPages: 0,
+      rows: []
+    },
+    abiding: {
+      currentPage: 0,
+      totalPages: 0,
+      rows: []
+    },
+    abidingTodoList: {},
   } as State,
 
   getters: {
-    getTodoList(state: State): (type?: NodeType) => Array<TodoModel.TodoData> {
-      return (type: NodeType = 'planning'): Array<TodoModel.TodoData> => state.allTodoList[type] || []
+    getTodoListByType(state: State): (todoType?: TodoModel.TodoType) => Array<TodoModel.Todo> {
+      return (todoType: TodoModel.TodoType = 'ongoing'): Array<TodoModel.Todo> => state[todoType].rows || []
+    },
+    getAbidingTodoById(state: State): (id: string) => TodoModel.Todo {
+      return (id: string): TodoModel.Todo => state.abidingTodoList[id]
+    },
+    // 按类型获取currentPage
+    getCurrentPageByType(state: State): (todoType: TodoType) => number {
+      return (todoType: TodoType): number => {
+        console.log('getCurrentPageByType', state[todoType].currentPage)
+        return state[todoType].currentPage
+      }
+    },
+    // 按类型获取isFinish
+    getFinishedPageByType(state: State): (todoType: TodoType) => boolean {
+      console.log('getFinishedPageByType')
+      return (todoType: TodoType): boolean => state[todoType].currentPage >= state[todoType].totalPages
     }
   },
 
   mutations: {
-    [GET_ALL_TODO](state: State, allTodoList: AllTodoList) {
-      state.allTodoList = allTodoList
+    [SET_CURRENT_PAGE](state: State, { todoType, currentPage }: { todoType: TodoType, currentPage: number }) {
+      state[todoType].currentPage = currentPage
+    },
+    [SET_TOTAL_PAGE](state: State, { todoType, totalPages }: { todoType: TodoType, totalPages: number }) {
+      state[todoType].totalPages = totalPages
+    },
+    [SET_TODO_PAGE_BY_TYPE](state: State, { todoType, todoList, isRefresh }: { todoType: TodoType; todoList: Todo[]; isRefresh?: boolean }) {
+      if (todoType === 'abiding') {
+        todoList.forEach(todo => {
+          state.abidingTodoList[todo.id] = todo
+        })
+      }
+      state[todoType].rows = isRefresh ? todoList : state[todoType].rows.concat(todoList)
     },
     [SAVE_TODO](state: State, { todo, index }: { todo: Todo; index: number }) {
-      if (index > 0) {
-        state.allTodoList[todo.node].splice(index, 1)
+      let list: Todo[]
+      if (todo.isAbiding) {
+        list = state.abiding.rows
+      } else {
+        list = state.ongoing.rows
       }
-      state.allTodoList[todo.node].unshift(todo)
+      if (index > 0) {
+        list.splice(index, 1)
+      }
+      list.unshift(todo)
+      if (todo.isAbiding) {
+        state.abidingTodoList[todo.id] = todo
+      }
     },
-    [TODO_NEXT](state: State, { node, index, todo }: { node: NodeType; index: number; todo: Todo }) {
-      state.allTodoList[node].splice(index, 1)
-      state.allTodoList[todo.node].unshift(todo)
-    },
-    [CLOSE_TODO](state: State, { node, index, todo }: { node: NodeType; index: number; todo: Todo }) {
-      state.allTodoList[node].splice(index, 1)
-      state.allTodoList['recycle'].unshift(todo)
-    },
-    [RESTORE_TODO](state: State, { index, todo }: { index: number; todo: Todo }) {
-      state.allTodoList['recycle'].splice(index, 1)
-      const node: NodeType = todo.isArchive ? 'archive' : todo.node
-      state.allTodoList[node].unshift(todo)
-    },
-    [DELETE_TODO_BY_ID](state: State, { index }: { index: number }) {
-      state.allTodoList['recycle'].splice(index, 1)
-    },
-    [TODO_DONE](state: State, { node, index, todo }: { node: NodeType; index: number; todo: Todo }) {
-      state.allTodoList[node].splice(index, 1)
-      state.allTodoList['done'].unshift(todo)
+    [DELETE_TODO_BY_ID](state: State, { todoType, index }: { todoType: TodoType; index: number }) {
+      state[todoType].rows.splice(index, 1)
     },
     [TODO_ARCHIVE](state: State, { index, todo }: { index: number; todo: Todo }) {
-      state.allTodoList['done'].splice(index, 1)
-      state.allTodoList['archive'].unshift(todo)
+      state.ongoing.rows.splice(index, 1)
+      state.archive.rows.unshift(todo)
     },
+    [TODO_ABIDE](state: State, { index, todo }: { index: number; todo: Todo }) {
+      let list: Todo[]
+      if (todo.isArchive) {
+        list = state.archive.rows
+      } else {
+        list = state.ongoing.rows
+      }
+      if (index > 0) {
+        list.splice(index, 1)
+      }
+      state.abiding.rows.unshift(todo)
+    }
   },
 
   actions: {
-    // getAllTodo, saveTodo, deleteTodoById, todoNext, todoDone, closeTodo, restoreTodo, todoArchive
-    /**
-     * 查询所有的角色
-     * @param commit
-     * @param state
-     */
-    async getAllTodoAction({ commit, state }: Store<State>): Promise<any> {
-      if (state.isInit) {
-        return state.allTodoList
+    async getTodoPageByTypeAction(
+      { commit }: Store<State>,
+      {
+        search, todoType, currentPage
+      }: {
+        search?: string; todoType?: TodoType; currentPage?: number
       }
-      const { code, data } = await getAllTodo()
-      const allTodoList: AllTodoList = {
-        recycle: [],
-        archive: [],
-        planning: [],
-        ongoing: [],
-        testing: [],
-        done: [],
+    ): Promise<any> {
+      const filter = {
+        isArchive: false,
+        isAbiding: false,
       }
-      data.forEach(todo => {
-        if (todo.isClose) {
-          allTodoList.recycle.push(todo)
-        } else if (todo.isArchive) {
-          allTodoList.archive.push(todo)
-        } else if (todo.node === "planning") {
-          allTodoList.planning.push(todo)
-        } else if (todo.node === "ongoing") {
-          allTodoList.ongoing.push(todo)
-        } else if (todo.node === "testing") {
-          allTodoList.testing.push(todo)
-        } else if (todo.node === "done") {
-          allTodoList.done.push(todo)
-        }
-      })
-      if (code !== RES_CODE.SUCCESS) {
-        return null
+      if (todoType === 'archive') {
+        filter.isArchive = true
+      } else if (todoType === 'abiding') {
+        filter.isAbiding = true
       }
-      commit(GET_ALL_TODO, allTodoList)
-      state.isInit = true
-      return data
+      const { data } = await getPage({ search, filter, currentPage })
+      const { currentPage: _currentPage, totalPages, rows } = data
+
+      // if (code !== RES_CODE.SUCCESS) {
+      //   data = []
+      // }
+      commit(SET_CURRENT_PAGE, { todoType, currentPage: _currentPage })
+      commit(SET_TOTAL_PAGE, { todoType, totalPages })
+      commit(SET_TODO_PAGE_BY_TYPE, { todoType, todoList: rows, isRefresh: currentPage === 1 })
+      // return rows
     },
     async getTodoByIdAction(_State: Store<State>, id: string) {
       const { data } = await getTodoById(id)
@@ -126,29 +153,17 @@ export default {
       }
       commit(SAVE_TODO, { todo: data, index })
     },
-    async closeTodoAction({ commit }: Store<State>, { id, node, index }: { id: string; node: NodeType; index: number }) {
-      const { data: todo } = await closeTodo(id)
-      commit(CLOSE_TODO, { node, index, todo })
-    },
-    async todoNextAction({ commit }: Store<State>, { id, node, index }: { id: string; node: NodeType; index: number }) {
-      const { data: todo } = await todoNext(id)
-      commit(TODO_NEXT, { node, index, todo })
-    },
-    async todoDoneAction({ commit }: Store<State>, { id, node, index }: { id: string; node: NodeType; index: number }) {
-      const { data: todo } = await todoDone(id)
-      commit(TODO_DONE, { node, index, todo })
+    async deleteTodoByIdAction({ commit }: Store<State>, { id, todoType, index }: { id: string; todoType: TodoType; index: number }) {
+      await deleteTodoById(id)
+      commit(DELETE_TODO_BY_ID, { todoType, index })
     },
     async todoArchiveAction({ commit }: Store<State>, { id, index }: { id: string; index: number }) {
       const { data: todo } = await todoArchive(id)
       commit(TODO_ARCHIVE, { index, todo })
     },
-    async restoreTodoAction({ commit }: Store<State>, { id, index }: { id: string; index: number }) {
-      const { data: todo } = await restoreTodo(id)
-      commit(RESTORE_TODO, { index, todo })
-    },
-    async deleteTodoByIdAction({ commit }: Store<State>, { id, index }: { id: string; index: number }) {
-      await deleteTodoById(id)
-      commit(DELETE_TODO_BY_ID, { index })
+    async todoAbide({ commit }: Store<State>, { id, index }: { id: string; index: number }) {
+      const { data: todo } = await todoAbide(id)
+      commit(TODO_ABIDE, { index, todo })
     }
   }
 }

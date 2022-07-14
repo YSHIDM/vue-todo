@@ -23,7 +23,7 @@ export default class MyLife extends Vue {
   navigateArray: Array<any> = [
     {
       name: '首页',
-      icon: 'smile-o',
+      icon: 'wap-home-o',
       to: 'homePage',
     },
     {

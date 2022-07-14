@@ -60,7 +60,7 @@ export default class TodoList extends Vue {
   name: 'planning' | 'ongoing' | 'testing' | 'done' = 'planning'
 
   @tdMd.Getter('getTodoList')
-  public collapseData!: (type?: TodoModel.NodeType) => Array<TodoModel.TodoData>
+  public collapseData!: (type?: TodoModel.TodoType) => Array<TodoModel.Todo>
   @tnMd.Getter('getTodoNodeList')
   public todoNodeList!: Array<TodoNodeModel.TodoNodeData>
 

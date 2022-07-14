@@ -9,6 +9,8 @@ module.exports = {
     TodoModel: true,
     TodoNodeModel: true,
     ComponentDataType: true,
+    TaskModel: true,
+    SpaceModel: true,
   },
   // extends是扩展插件的意思，eslint的airbnb规范相关vue插件必须安装！
   extends: [

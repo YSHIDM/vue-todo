@@ -73,11 +73,11 @@ export default class TodoPicker extends Vue {
   cascaderValue = ''
 
   @tdMd.Getter('getTodoList')
-  private getTodoList!: (type?: TodoModel.NodeType) => Array<TodoModel.TodoData>
+  private getTodoList!: (type?: TodoModel.TodoType) => Array<TodoModel.Todo>
   @tnMd.Getter('getTodoNodeList')
   private getTodoNodeList!: Array<TodoNodeModel.TodoNodeData>
   @tdMd.Action('todoNextAction')
-  private todoNextAction!: ({ id, node, index}: {id: string; node: TodoModel.NodeType; index: number}) => Promise<void>
+  private todoNextAction!: ({ id, node, index}: {id: string; node: TodoModel.TodoType; index: number}) => Promise<void>
 
   async todoNext(){
     const { id, node } = (this.$refs.picker as any).getColumnValue(1).todo

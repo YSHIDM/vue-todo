@@ -71,7 +71,7 @@
       }
       const encryptPassword = getPublicEncryptData(this.password, this.publicKey)
       await this.signInAction({nickname: this.nickname, encryptPassword})
-      this.$router.push('/mylife')
+      this.$router.push('/homePage')
     }
       toRegister(){
           this.$router.push('/signUp')

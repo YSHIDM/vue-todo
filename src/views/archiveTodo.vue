@@ -55,9 +55,9 @@ const tdMd = namespace("todoStore")
 @Component
 export default class ArchiveTodo extends Vue {
   @tdMd.Getter('getTodoList')
-  public getTodoList!: (type?: TodoModel.NodeType) => Array<TodoModel.TodoData>
+  public getTodoList!: (type?: TodoModel.TodoType) => Array<TodoModel.Todo>
   @tdMd.Action('closeTodoAction')
-  private closeTodoAction!: ({ id, node, index}: {id: string; node: TodoModel.NodeType; index: number}) => Promise<void>
+  private closeTodoAction!: ({ id, node, index}: {id: string; node: TodoModel.TodoType; index: number}) => Promise<void>
 
   async closeTodo(id: string, index: number){
     const closeTodoAction = this.closeTodoAction

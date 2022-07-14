@@ -6,7 +6,7 @@ declare namespace ComponentDataType {
   // }
   interface SelectedOptionChild {
     text: string;
-    todo: TodoModel.TodoData;
+    todo: TodoModel.Todo;
   }
   interface SelectedOption {
     text: string;

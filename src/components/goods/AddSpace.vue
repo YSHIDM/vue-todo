@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- 首页 -->
-    首页
+    goods 物品
   </div>
 </template>

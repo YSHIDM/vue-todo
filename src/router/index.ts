@@ -19,15 +19,35 @@ const routes: Array<RouteConfig> = [{
   children: [{
     path: '/homePage',
     name: 'homePage',
-    component: () => import('../views/homePage.vue')
+    component: () => import('../views/myLife/homePage.vue')
   }, {
     path: '/smallGoals',
     name: 'smallGoals',
-    component: () => import('../views/smallGoals.vue')
+    component: () => import('../views/myLife/smallGoals.vue')
   }, {
     path: '/setting',
     name: 'setting',
-    component: () => import('../views/setting.vue')
+    component: () => import('../views/myLife/setting.vue')
+  }, {
+    path: '/taskPage',
+    name: 'taskPage',
+    component: () => import('../views/myLife/home/taskPage.vue')
+  }, {
+    path: '/todoPage',
+    name: 'todoPage',
+    component: () => import('../views/myLife/home/todoPage.vue')
+  }, {
+    path: '/spacePage',
+    name: 'spacePage',
+    component: () => import('../views/myLife/home/space/spacePage.vue')
+  }, {
+    path: '/goodsPage',
+    name: 'goodsPage',
+    component: () => import('../views/myLife/home/goodsPage.vue')
+  }, {
+    path: '/notePage',
+    name: 'notePage',
+    component: () => import('../views/myLife/home/notePage.vue')
   }],
 }, {
   path: '/todoList',

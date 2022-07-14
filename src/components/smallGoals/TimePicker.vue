@@ -31,6 +31,13 @@
         </template>
       </van-picker>
     </van-popup>
+    <van-datetime-picker
+      v-model="currentDate"
+      type="datetime"
+      title="选择完整时间"
+      :min-date="minDate"
+      :max-date="maxDate"
+    />
   </div>
 </template>
 
@@ -42,8 +49,18 @@ export default class TimePicker extends Vue {
   value = ''
   show = false
 
+      minDate = new Date(2020, 0, 1)
+      maxDate = new Date(2025, 10, 1)
+      currentDate = new Date()
+
   public get timeOptions(){
     return [{
+      values: this.getNumStrArray(3000)
+    }, {
+      values: this.getNumStrArray(12)
+    }, {
+      values: this.getNumStrArray(31)
+    }, {
       values: this.getNumStrArray(24)
     }, {
       values: this.getNumStrArray(60)
@@ -69,6 +86,9 @@ export default class TimePicker extends Vue {
     }
     return arr
   }
+  // private getDayStrArray(month) {
+
+  // }
 }
 </script>
 

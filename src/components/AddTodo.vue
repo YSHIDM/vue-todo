@@ -46,9 +46,9 @@ export default class AddTodo extends Vue {
   todo = { title: '', content: '' }
 
   @tdMd.Action('getTodoByIdAction')
-  private getTodoByIdAction!: (id: string) => Promise<TodoModel.TodoData>
+  private getTodoByIdAction!: (id: string) => Promise<TodoModel.Todo>
   @tdMd.Action('saveTodoAction')
-  private saveTodoAction!: ({todo, index}: {todo: TodoModel.TodoData; index: number}) => Promise<TodoModel.TodoData>
+  private saveTodoAction!: ({todo, index}: {todo: TodoModel.Todo; index: number}) => Promise<TodoModel.Todo>
 
   activeName = 0
   async saveTodo(values: any){
@@ -62,7 +62,8 @@ export default class AddTodo extends Vue {
   }
   async created(){
     if (this.id){
-      this.todo = await this.getTodoByIdAction(this.id)
+      // this.todo =
+      await this.getTodoByIdAction(this.id)
     }
   }
 }

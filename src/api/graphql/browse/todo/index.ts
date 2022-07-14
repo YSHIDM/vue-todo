@@ -10,7 +10,7 @@ import {
   todoArchiveGql,
 } from './mutation'
 
-export const getAllTodo = (): Promise<HttpRes<Array<TodoModel.TodoData>>> => query({
+export const getAllTodo = (): Promise<HttpRes<Array<TodoModel.Todo>>> => query({
   query: getAllTodoGql,
 }, 'getAllTodo')
 
@@ -49,7 +49,7 @@ export const todoDone = (id: string) => mutation({
   }
 }, 'todoDone')
 
-export const closeTodo = (id: string): Promise<HttpRes<TodoModel.TodoData>> => mutation({
+export const closeTodo = (id: string): Promise<HttpRes<TodoModel.Todo>> => mutation({
   mutation: closeTodoGql,
   variables: {
     id

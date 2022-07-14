@@ -91,7 +91,7 @@
       // publicKey 的存储位置修改了 -> store
       const encryptPassword = getPublicEncryptData(this.password, this.publicKey)
       await this.signUpAction({nickname: this.nickname, encryptPassword})
-      this.$router.push('/myLife')
+      this.$router.push('/homePage')
       }
     }
   }
